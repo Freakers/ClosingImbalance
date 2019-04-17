@@ -1,0 +1,23 @@
+Metadata-Version: 2.0
+Name: urllib2-prior-auth
+Version: 0.2.0
+Summary: Module resolving http://bugs.python.org/issue19494
+Home-page: https://gitlab.com/mcepl/urllib2_prior_auth
+Author: Matěj Cepl
+Author-email: mcepl@cepl.eu
+License: BSD
+Keywords: urllib2,authorization,unittest
+Platform: UNKNOWN
+Classifier: Programming Language :: Python :: 2.7
+Classifier: Programming Language :: Python :: 3.4
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Environment :: Console
+Classifier: Intended Audience :: Information Technology
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: Text Processing :: Markup
+
+UNKNOWN
+
+

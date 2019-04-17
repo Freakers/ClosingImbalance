@@ -1,0 +1,46 @@
+Metadata-Version: 1.1
+Name: data-readers
+Version: 0.5.3
+Summary: Read from multiple databases and formats easily from python
+Home-page: https://github.com/jamesmarlowe/Python-Data-Readers
+Author: James Marlowe (jamesmarlowe)
+Author-email: jameskmarlowe@gmail.com
+License: FreeBSD
+Description: Data-Readers
+        =======================
+        
+        Read from multiple databases and formats easily from python.
+        
+        This project is useful in any scenario where you need to read some data in a 
+        useable manner quickly and easily.
+        
+        It can be used to read from:
+        * csv
+        * sqlite
+        * mysql
+        * redis
+        * mongo
+        * postgres
+        * aerospike
+        
+        Example usage is as simple as:
+        
+        ```
+        list_of_dicts = DataReader(reader='csv', database='data.csv').read()
+        ```
+        
+        source code available at: https://github.com/jamesmarlowe/Python-Data-Readers
+        
+Keywords: database read csv data postgres mysql redis sqlite mongo aerospike
+Platform: UNKNOWN
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: Topic :: Software Development :: Build Tools
+Classifier: License :: OSI Approved :: BSD License
+Classifier: Programming Language :: Python :: 2
+Classifier: Programming Language :: Python :: 2.6
+Classifier: Programming Language :: Python :: 2.7
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.2
+Classifier: Programming Language :: Python :: 3.3
+Classifier: Programming Language :: Python :: 3.4
