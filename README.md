@@ -67,11 +67,10 @@ This file contains the folllowing PYTHON classes used to demonstrate the PPro8 A
 <li>  
   class ppro_datagram(DatagramProtocol):
 </li>
+<p>
+  This file contains the folllowing PYTHON unit tests used to demonstrate the above classes
 
-<p>This file contains the folllowing PYTHON unit tests used to demonstrate the above classes</p>
-
-<p>This file contains the folllowing PYTHON classes used to demonstrate the PPro8 API</p>
-
+</p>
 <li>  
   ACB_TOS = RegisterSymbol("ACB.TO", "TOS")
 </li>
@@ -156,44 +155,44 @@ This file contains the folllowing PYTHON classes used to demonstrate the PPro8 A
   reactor.run()
 </li>
 
-It also contains a \data folder containing various Exchange Symbol Lists traded at DTTW
-
-  Amsterdam.csv
-  Bovespa.csv
-  Brussels.csv
-  CBOE-BITCOIN.csv
-  CBOE-VIX.csv
-  CBOE.csv
-  Copenhagen.csv
-  CSE.csv
-  Dublin.csv
-  ETF.csv
-  Helsinki.csv
-  Johannesburg.csv
-  Lisbon.csv
-  London.csv
-  Madrid.csv
-  Milan.csv
-  Moscow.csv
-  NASDAQ.csv
-  NYMEX-E-miniCrudeOil.csv
-  NYMEX-Gasoline.csv
-  NYMEX-Light SweetCrudeOil.csv
-  NYMEX-NaturalGas.csv
-  NYMEX-NYHarborULSD.csv
-  NYMEX.csv
-  NYSE-AMEX.csv
-  NYSE.csv
-  Oslo.csv
-  OTC-Pink.csv
-  Paris.csv
-  SP_500.csv
-  Stockholm.csv
-  Switzerland.csv
-  Turkey.csv
-  Vienna.csv
-  Warsaw.csv
-  Xetra.csv
+<p>
+  It also contains a \data folder containing various Exchange Symbol Lists traded at DTTW
 </p>
+  <li>Amsterdam.csv 
+  <li>Bovespa.csv
+  <li>Brussels.csv
+  <li>CBOE-BITCOIN.csv
+  <li>CBOE-VIX.csv
+  <li>CBOE.csv
+  <li>Copenhagen.csv
+  <li>CSE.csv
+  <li>Dublin.csv
+  <li>ETF.csv
+  <li>Helsinki.csv
+  <li>Johannesburg.csv
+  <li>Lisbon.csv
+  <li>London.csv
+  <li>Madrid.csv
+  <li>Milan.csv
+  <li>Moscow.csv
+  <li>NASDAQ.csv
+  <li>NYMEX-E-miniCrudeOil.csv
+  <li>NYMEX-Gasoline.csv
+  <li>NYMEX-Light SweetCrudeOil.csv
+  <li>NYMEX-NaturalGas.csv
+  <li>NYMEX-NYHarborULSD.csv
+  <li>NYMEX.csv
+  <li>NYSE-AMEX.csv
+  <li>NYSE.csv
+  <li>Oslo.csv
+  <li>OTC-Pink.csv
+  <li>Paris.csv
+  <li>SP_500.csv
+  <li>Stockholm.csv
+  <li>Switzerland.csv
+  <li>Turkey.csv
+  <li>Vienna.csv
+  <li>Warsaw.csv
+  <li>Xetra.csv
 
 
