@@ -1,9 +1,9 @@
 "# ClosingImbalance" 
-<p>
-This file contains the folllowing PYTHON classes used to demonstrate the PPro8 API
 
-  *class Symbols:
-  *class RegisterSymbol:
+This file contains the folllowing PYTHON classes used to demonstrate the PPro8 API
+<li>
+  class Symbols:
+  class RegisterSymbol:
   class RegisterImbalance:
   class RegisterSymbols:
   class RegisterDictionarySymbols:
@@ -24,7 +24,7 @@ This file contains the folllowing PYTHON classes used to demonstrate the PPro8 A
   class levelone():
   class Symbols:
   class ppro_datagram(DatagramProtocol):
-
+</li>
 This file contains the folllowing PYTHON unit tests used to demonstrate the above classes
 
 This file contains the folllowing PYTHON classes used to demonstrate the PPro8 API
