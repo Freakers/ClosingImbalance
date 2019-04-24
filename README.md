@@ -1,7 +1,7 @@
 <H1>ClosingImbalance</H1>
 
 <p>
-  This file contains the folllowing PYTHON classes used to demonstrate the PPro8 API
+  This project contains the folllowing PYTHON classes used to demonstrate the PPro8 API and to code the TSX closing imbalance
 </p>
 <li>
   class Symbols:
