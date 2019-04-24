@@ -3,31 +3,74 @@
 This file contains the folllowing PYTHON classes used to demonstrate the PPro8 API
 <li>
   class Symbols:
+</li>
+<li>  
   class RegisterSymbol:
+</li>
+<li>  
   class RegisterImbalance:
+</li>
+<li>  
   class RegisterSymbols:
+</li>
+<li>  
   class RegisterDictionarySymbols:
+</li>
+<li>  
   class SnapShot:
+</li>
+<li>  
   class TOSFileReader:
+</li>
+<li>  
   class registerSP500:
+</li>
+<li>  
   class ImbalanceFileReader:
+</li>
+<li>  
   class ClosingImbalanceFile:
+</li>
+<li>  
   class Imbalance:
+</li>
+<li>  
   class TSXClosingImbalance:
+</li>
+<li>  
   class SubmitMarketOrder:
+</li>
+<li>  
   class SellMarketOrder:
+</li>
+<li>  
   class BuyMarketOrder:
+</li>
+<li>  
   class SellFutures:
+</li>
+<li>  
   class BuyFutures:
+</li>
+<li>  
   class LoadSymbols():
+</li>
+<li>  
   class loadCSVinDictionary():
+</li>
+<li>  
   class levelone():
+</li>
+<li>  
   class Symbols:
+</li>
+<li>  
   class ppro_datagram(DatagramProtocol):
 </li>
-This file contains the folllowing PYTHON unit tests used to demonstrate the above classes
 
-This file contains the folllowing PYTHON classes used to demonstrate the PPro8 API
+<p>This file contains the folllowing PYTHON unit tests used to demonstrate the above classes</p>
+
+<p>This file contains the folllowing PYTHON classes used to demonstrate the PPro8 API</p>
 
   ACB_TOS = RegisterSymbol("ACB.TO", "TOS")
   ACB_L1  = RegisterSymbol("ACB.TO", "L1")
