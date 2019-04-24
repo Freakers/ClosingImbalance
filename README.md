@@ -1,5 +1,5 @@
 "# ClosingImbalance" 
-
+<p>
 This file contains the folllowing PYTHON classes used to demonstrate the PPro8 API
 
   *class Symbols:
@@ -99,6 +99,6 @@ It also contains a \data folder containing various Exchange Symbol Lists traded 
   Vienna.csv
   Warsaw.csv
   Xetra.csv
-
+</p>
 
 
