@@ -1,8 +1,9 @@
 <H1>ClosingImbalance</H1>
 
 <p>
-  This project contains the folllowing PYTHON classes used to demonstrate the PPro8 API and to code the TSX closing imbalance.
-  The project was developed using Python 3.7.2 and Intellij PYCharm Community Edition 2019.1.1 running on a windows 10 platform
+  
+  Project containing the folllowing PYTHON classes used to demonstrate the PPro8 API and to code and test the TSX closing imbalance.
+  The project was developed using Python 3.7.2 and Intellij PYCharm Community Edition 2019.1.1 running on a windows 10 platform.
 </p>
 <li>
   class Symbols:
@@ -72,6 +73,7 @@
 </li>
 
 <p>
+  
   This file contains the folllowing PYTHON unit tests used to demonstrate the above classes
 </p>
 
