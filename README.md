@@ -2,8 +2,8 @@
 
 This file contains the folllowing PYTHON classes used to demonstrate the PPro8 API
 
-  class Symbols:
-  class RegisterSymbol:
+  *class Symbols:
+  *class RegisterSymbol:
   class RegisterImbalance:
   class RegisterSymbols:
   class RegisterDictionarySymbols:
