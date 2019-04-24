@@ -1,7 +1,8 @@
 <H1>ClosingImbalance</H1>
 
 <p>
-  This project contains the folllowing PYTHON classes used to demonstrate the PPro8 API and to code the TSX closing imbalance
+  This project contains the folllowing PYTHON classes used to demonstrate the PPro8 API and to code the TSX closing imbalance.
+  The project was developed using Python 3.7.2 and Intellij PYCharm Community Edition 2019.1.1 running on a windows 10 platform
 </p>
 <li>
   class Symbols:
@@ -159,7 +160,7 @@
 </li>
 
 <p>
-  It also contains a \data folder containing various Exchange Symbol Lists traded at DTTW
+  The project also conatins a \data folder containing Exchange Symbol Lists for various markets traded at DTTW. Please check to see which symbols are available on specific markets
 </p>
   <li>Amsterdam.csv 
   <li>Bovespa.csv
