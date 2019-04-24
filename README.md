@@ -1,6 +1,8 @@
-"# ClosingImbalance" 
+<H1>ClosingImbalance</H1>
 
-This file contains the folllowing PYTHON classes used to demonstrate the PPro8 API
+<p>
+  This file contains the folllowing PYTHON classes used to demonstrate the PPro8 API
+</p>
 <li>
   class Symbols:
 </li>
