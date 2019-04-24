@@ -69,10 +69,11 @@
 <li>  
   class ppro_datagram(DatagramProtocol):
 </li>
+
 <p>
   This file contains the folllowing PYTHON unit tests used to demonstrate the above classes
-
 </p>
+
 <li>  
   ACB_TOS = RegisterSymbol("ACB.TO", "TOS")
 </li>
@@ -196,5 +197,3 @@
   <li>Vienna.csv
   <li>Warsaw.csv
   <li>Xetra.csv
-
-
