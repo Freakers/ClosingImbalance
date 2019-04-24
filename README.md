@@ -160,7 +160,8 @@
 </li>
 
 <p>
-  The project also conatins a \data folder containing Exchange Symbol Lists for various markets traded at DTTW. Please check to see which symbols are available on specific markets
+  
+The project also conatins a \data folder containing Exchange Symbol Lists for various markets traded at DTTW. Please check to see which symbols are available on specific markets
 
 </p>
   <li>Amsterdam.csv 
