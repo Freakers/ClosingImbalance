@@ -2,6 +2,7 @@ import urllib.request
 import urllib.response
 import time
 
+
 class RegisterSymbol():
     """Registers a single symbol in PPro8 API"""
     def __init__(self, symbol="CRON.TO", feedType="TOS"):
@@ -11,6 +12,7 @@ class RegisterSymbol():
             html1: object = response1.read()
             #print("Register Symbol Response : " + html1.__str__())
 
+
 class RegisterImbalance():
     """Registers a single symbol in PPro8 API"""
     def __init__(self):
@@ -19,6 +21,7 @@ class RegisterImbalance():
         with urllib.request.urlopen('http://localhost:8080/Register?region=1&feedtype=IMBALANCE&output=bytype') as response1:
             html1: object = response1.read()
             #print("Register Symbol Response : " + html1.__str__())
+
 
 class RegisterSymbols:
     """Registers a list of symbols in PPro8 API"""
@@ -72,6 +75,7 @@ class ImbalanceFileReader:
             else:
                 print(line)
 
+
 class ClosingImbalanceFile:
     """Read and process the Imbalance File for Parsing into the Imbalance Data Class"""
     def __init__(self):
@@ -81,13 +85,11 @@ class ClosingImbalanceFile:
             print(line)
         file.close()
 
+
 class Imbalance:
     """Data Class Used to store the closing imbalance information in the Imbalance Class using a Dictionary"""
-
-
     def __init__(self):
         print("Initialize Imbalance Object")
-
 
     @staticmethod
     def loadfile(tradeValue):
@@ -119,13 +121,11 @@ class Imbalance:
                       ", TradeValue : " + str(int(float(imbalancerecords[key]['AuctionPrice']) * float(int(imbalancerecords[key]['Volume'])))))
         return ""
 
+
 class TSXClosingImbalance:
     """Data Class Used to store the TSX closing imbalance information in the Imbalance Records Dictionary"""
-
-
     def __init__(self):
         print("Initialize Imbalance Object")
-
 
     @staticmethod
     def loadfile(tradeValue):
@@ -171,18 +171,20 @@ class TSXClosingImbalance:
                     SellMarketOrder(imbalancerecords[key]['Symbol'], 100)
         return ""
 
+
 class SubmitMarketOrder:
     """Submit Order based on the symbol"""
     def __init__(self, symbol="CRON.TO", shares="100"):
         print("Submitting 100 Share order for Symbol")
         print('Submit Order Request  : http://localhost:8080/ExecuteOrder?symbol='+symbol +
               '&ordername=TSX%20Buy%20SweepSOR%20Market%20DAY' +
-              '&shares='+str(shares))
+              '&shares='+strshares)
         with urllib.request.urlopen('http://localhost:8080/ExecuteOrder?symbol=ACB.TO' +
                                     '&ordername=TSX%20Buy%20SweepSOR%20Market%20DAY' +
                                     '&shares=100') as response1:
             html1: object = response1.read()
             print("Submit Order Response : " + html1.__str__())
+
 
 class SellMarketOrder:
     """Submit Order based on the symbol"""
@@ -195,17 +197,16 @@ class SellMarketOrder:
             html1: object = response1.read()
             print("API - Execute Order Response : " + html1.__str__())
 
+
 class BuyMarketOrder:
     """Submit Order based on the symbol"""
     def __init__(self, symbol="CRON.TO", shares="100"):
         print("Buy 100 Shares Market: " + symbol)
-        print('API - Execute Order Request  : http://localhost:8080/ExecuteOrder?symbol='+symbol+'&limitprice=10.00&ordername=TSX%20Buy%20SweepSOR%20Market%20DAY%20Reserve&shares=1000&displaysize=100')
         with urllib.request.urlopen('http://localhost:8080/ExecuteOrder?symbol=ACB.TO' +
                                     '&ordername=TSX%20Buy%20SweepSOR%20Market%20DAY' +
                                     '&shares=100') as response1:
             html1: object = response1.read()
             print("API - Execute Order Response : " + html1.__str__())
-
 
 #test1 = RegisterSymbols(["TD.TO", "X.TO", "ACB.TO","CRON.TO"], "TOS")
 #test2 = SnapShot(["TD.TO", "X.TO", "ACB.TO","CRON.TO"], "IMBALANCE")

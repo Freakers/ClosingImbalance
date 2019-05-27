@@ -5,6 +5,7 @@ import os
 from twisted.internet import reactor
 from twisted.internet.protocol import DatagramProtocol
 
+
 class Symbols:
     symbols = {}
 
@@ -21,7 +22,6 @@ class Symbols:
 class RegisterSymbol:
     """Registers a single symbol in PPro8 API"""
     def __init__(self, symbol="CRON.TO", feedType="TOS", output="btype"):
-        print("Rergister Symbol")
         print('Register Symbol Request  : http://localhost:8080/Register?symbol='+symbol+'&feedtype='+feedType)
         with urllib.request.urlopen('http://localhost:8080/Register?symbol='+symbol+'&feedtype='+feedType) \
                 as response1:
@@ -33,6 +33,7 @@ class RegisterSymbol:
                                     '&feedtype='+feedType+'&output='+output+'&status=on') as response2:
             html2: object = response2.read()
             print("Register Output: "+html2.__str__())
+
 
 class RegisterImbalance:
     """Registers a single symbol in PPro8 API"""
@@ -108,8 +109,8 @@ class registerSP500:
         for counter, symbol in symbols.items():
             print(counter)
             print(symbol)
-            RegisterSymbol(symbol.__str__(), "TOS")
-            RegisterSymbol(symbol.__str__(), "L1")
+            RegisterSymbol(symbol, "TOS")
+            RegisterSymbol(symbol, "L1")
 
 
 class ImbalanceFileReader:
@@ -182,7 +183,7 @@ class TSXClosingImbalance:
 
 
     @staticmethod
-    def loadfile(tradeValue):
+    def loadfile(tradeValue, market):
         """Load the Imbalance File for Parsing into the imbalancerecord(s) data dictionaries"""
         print("Start Load Imbalance File: "+time.asctime())
         #file = open("C:\\Users\\tctech\\Documents\\Trading Notes\\ClosingImbalance.txt", "r")
@@ -202,28 +203,28 @@ class TSXClosingImbalance:
                 recordcount = recordcount + 1
         print("Imbalance Load Completed:  "+time.asctime())
         for key, value in imbalancerecords.items():
+            #print("Auction Price: " + imbalancerecords[key]['AuctionPrice'])
+            #print("Volume        : "+ imbalancerecords[key]['Volume'])
             if float(imbalancerecords[key]['AuctionPrice']) * float(int(imbalancerecords[key]['Volume'])) >= tradeValue:
-                if imbalancerecords[key]['Side'] == 'S' and imbalancerecords[key]['Symbol'].endswith(".TO"):
+                if imbalancerecords[key]['Side'] == 'S' and imbalancerecords[key]['Symbol'].endswith(market):
                     print("Symbol : " + imbalancerecords[key]['Symbol'] +
                           ", Market : " + imbalancerecords[key]['Source'] +
                           ", Side : " + imbalancerecords[key]['Side'] +
                           ", Market Time : " + imbalancerecords[key]['MarketTime'] +
                           ", Volume : " + imbalancerecords[key]['Volume'] +
                           ", AuctionPrice : " + imbalancerecords[key]['AuctionPrice'] +
-                          ", TradeValue : " + str(int(
-                        float(imbalancerecords[key]['AuctionPrice']) * float(int(imbalancerecords[key]['Volume'])))))
-                    BuyMarketOrder(imbalancerecords[key]['Symbol'], "100")
+                          ", TradeValue : " + format(float(imbalancerecords[key]['AuctionPrice']) * float(int(imbalancerecords[key]['Volume'])), "f"))
+                    #BuyMarketOrder(imbalancerecords[key]['Symbol'], "100")
 
-                if imbalancerecords[key]['Side'] == 'B' and imbalancerecords[key]['Symbol'].endswith(".TO"):
+                if imbalancerecords[key]['Side'] == 'B' and imbalancerecords[key]['Symbol'].endswith(market):
                     print("Symbol : " + imbalancerecords[key]['Symbol'] +
                           ", Market : " + imbalancerecords[key]['Source'] +
                           ", Side : " + imbalancerecords[key]['Side'] +
                           ", Market Time : " + imbalancerecords[key]['MarketTime'] +
                           ", Volume : " + imbalancerecords[key]['Volume'] +
                           ", AuctionPrice : " + imbalancerecords[key]['AuctionPrice'] +
-                          ", TradeValue : " + str(int(
-                        float(imbalancerecords[key]['AuctionPrice']) * float(int(imbalancerecords[key]['Volume'])))))
-                    SellMarketOrder(imbalancerecords[key]['Symbol'], "100")
+                          ", TradeValue : " + format(float(imbalancerecords[key]['AuctionPrice']) * float(int(imbalancerecords[key]['Volume'])), "f"))
+                    #SellMarketOrder(imbalancerecords[key]['Symbol'], "100")
         return ""
 
 
@@ -232,7 +233,7 @@ class SubmitMarketOrder:
     def __init__(self, symbol="CRON.TO", side="Buy", shares="100"):
         print("Submitting 100 Share order for Symbol")
         with urllib.request.urlopen('http://localhost:8080/ExecuteOrder?symbol=' + symbol +
-                                    '&ordername=TSX%20' + side + '%20SweepSOR%20Market%20DAY' +
+                                    '&ordername=TSX%20' + side + '%20SweepSOR%20Market%20ANON%20DAY' +
                                     '&shares=' + shares) as response1:
             html1: object = response1.read()
             print("Submit Order Response : " + html1.__str__())
@@ -243,7 +244,7 @@ class SellMarketOrder:
     def __init__(self, symbol="CRON.TO", shares="100"):
         print("Sell " + shares + " Shares Market:" + symbol)
         with urllib.request.urlopen('http://localhost:8080/ExecuteOrder?symbol=' + symbol +
-                                    '&ordername=TSX%20Sell->Short%20SweepSOR%20Market%20DAY' +
+                                    '&ordername=TSX%20Sell->Short%20SweepSOR%20Market%20ANON%20DAY' +
                                     '&shares=' + shares) as response1:
             html1: object = response1.read()
             print("API - Execute Order Response : " + html1.__str__())
@@ -284,7 +285,6 @@ class BuyFutures:
 
 class LoadSymbols():
     """Load the Symbol File into the symbols data dictionaries"""
-    get = Symbols()
 
     def __init__(self, file=os.getcwd().__str__() + '\\data\\SP_500.csv'):
         print("Start Load File: " + time.asctime())
@@ -293,15 +293,16 @@ class LoadSymbols():
         file = open(file, "r")
         recordcount = 1
         sym = {}
-        symbols = Symbols()
+        self.symbols = Symbols()
         for symbol in file:
             symbolrecord = {}
             symbolrecord[recordcount] = symbol.rstrip()
             sym[recordcount] = symbolrecord
-            symbols.setsymbols(recordcount, symbol.rstrip())
+            self.symbols.setsymbols(recordcount, symbol.rstrip())
             recordcount += 1
-        print(symbols.getsymbols())
-        get = symbols.symbols
+
+    def getSP500StockList(self):
+        return self.symbols()
 
 
 class loadCSVinDictionary():
@@ -311,7 +312,7 @@ class loadCSVinDictionary():
             obj[field.split("=").__getitem__(0)] = field.split("=").__getitem__(1)
 
 
-class levelone():
+class LevelOne:
     """L1 Object"""
     level_1 = {}
 
@@ -325,25 +326,21 @@ class levelone():
         return print(self.level_1.__str__())
 
 
-class Symbols:
-    symbols = {}
-
-    def _init__(self):
-        print("Hello")
-
-    def setsymbols(self, record, sym):
-        self.symbols[record] = sym
-
-    def getsymbols(self):
-        return print(self.symbols.__str__())
-
 class ppro_datagram(DatagramProtocol):
+
+    def __init__(self):
+        self.bidpr = 0
+        self.askpr = 0
+        self.asks = 0
+        self.bids = 0
+
     def startProtocol(self):
         # code here what you want to start upon listner creation..
         # I use this space to connect to my logging backend and inter process communication library
         print('starting up..')
 
     def datagramReceived(self, data, addr):
+
         # decode byte data from UDP port into string, and replace spaces with NONE
         msg = data.decode("utf-8").replace(' ', 'NONE')
 
@@ -354,23 +351,42 @@ class ppro_datagram(DatagramProtocol):
         for item in msg.split(','):
             couple = item.split('=')
             message_dict[couple[0]] = couple[1]
+        #print(message_dict.__str__())
         # now you can call specific data by name in the line you're processing instead of counting colums
         # See the print statement below for examples
 
-        print('{} {} {}'.format(message_dict['Symbol'], message_dict['Message'], msg))
-
+        # print('{} {} {}'.format(message_dict['Symbol'], message_dict['Message'], msg))
+        if message_dict['Message'] == "L1":
+            bidpr = float(message_dict['BidPrice'])
+            askpr = float(message_dict['AskPrice'])
+            bids = 0
+            asks = 0
+            print("L1 Time: "+message_dict['MarketTime'] + " Symbol: " + message_dict['Symbol'])
+            print("     Bid Price: " + message_dict['BidPrice'] + " Bid Size: " + message_dict['BidSize'])
+            print("     Ask Price: " + message_dict['AskPrice'] + " Ask Size: " + message_dict['AskSize'])
+            x = 1
+        if message_dict['Message'] == "TOS":
+            print("TOS Time: " + message_dict['MarketTime'] + " Price: " + message_dict['Price'] +
+                  " Size: " + message_dict['Size'])
+            if float(message_dict['Price']) >= askpr:
+                asks = asks + 1
+            if float(message_dict['Price']) <= bidpr:
+                bids = bids + 1
+        print("Bids = " + bids.__str__() + " Asks = " + asks.__str__())
         # but any named column will not be callable:
-        # message_dict['MarketTime']
+        # message_dict['MarketTime'] " + message_dict['Symbol'])
+        #             print("     Bid Price: " + message_dict['BidPrice'] + " Bid Size: " + message_dict['BidSize'])
+        #             print("     Ask Price: " + message_dict['AskPrice'] + " Ask Size: " + message_dict['AskSize'])
         # message_dict['Price']
 
     def connectionRefused(self):
         print("No one listening")
 
 
-#ACB_TOS = RegisterSymbol("ACB.TO", "TOS")
-#ACB_L1  = RegisterSymbol("ACB.TO", "L1")
-#GS_L1   = RegisterSymbol("GS.TO", "L1")
-#GS_L2   = RegisterSymbol("GS.TO", "L2")
+#ACB_TOS = RegisterSymbol("ACB.TO", "TOS", "bytype")
+#ACB_L1  = RegisterSymbol("ACB.TO", "L1", "bytype")
+#GS_L1   = RegisterSymbol("GS.TO", "L1", "bytype")
+#GS_L2   = RegisterSymbol("GS.TO", "L2", "bytype")
 #GS_L2_UDP = RegisterSymbol("GS.TO", "L2", "5555")
 #GS_TOS  = RegisterSymbol("GS.TO", "TOS")
 #test2 = SnapShot(["TD.TO", "X.TO", "ACB.TO","CRON.TO"], "IMBALANCE")
@@ -380,20 +396,21 @@ class ppro_datagram(DatagramProtocol):
 #test6Sell = SellMarketOrder("ACB.TO", 100)
 #test7 = RegisterImbalance()
 #test8 = ImbalanceFileReader()
-#test5 = Imbalance().loadfile(200000000.00)
-test9 = TSXClosingImbalance.loadfile(10000000.00)
+#test5 = Imbalance().loadfile(100000000.00)
+test9 = TSXClosingImbalance.loadfile(8000000.00, ".TO")
 #test10 = BuyFutures()
 #test11 = registerSP500()
 #x = LoadSymbols()
-#print(x.get.symbols)
+#print("Print : "+x.getSP500StockList())
 #test13 = registerSP500(x.get.symbols)
 #test12.listSymbols()
 #test1 = RegisterSymbols(x.get.symbols, "TOS")
 #BuyMarketOrder("CRON.TO", "100")
 #SellMarketOrder("ACB.TO", "100")
-#test = SubmitMarketOrder("ACB.TO", "Buy", "100")
+#test = SubmitMarketOrder("WEED.TO", "Buy", "100")
 #test = BuyMarketOrder("ACB.TO", "100")
 #test = SellMarketOrder("ACB.TO", "100")
-#L1=RegisterSymbol("ACB.TO", "L1", "5555")
+#L1=RegisterSymbol("CRON.TO", "L1", "5555")
+#TOS = RegisterSymbol("CRON.TO", "TOS", "5555")
 #reactor.listenUDP(5555, ppro_datagram())
 #reactor.run()
