@@ -45,7 +45,7 @@ class L1:
         self.totalaskvolume = 0
         self.totaldownticks = 0
         self.totalupticks = 0
-        #print("Init L1 Object")
+        print("Init L1 Object")
         self.l1 = {}
 
     def update(self, symbol, bidpr, askpr, bidvol, askvol, msgtime):
