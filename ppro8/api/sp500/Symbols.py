@@ -20,7 +20,7 @@ class calculatemedian:
         # print("Spread: " + str(self.spread))
         # print("Value : " + str(self.value))
         # print("MinMedian: " +str(self.minmedian))
-        # print("MaxMedian: " +str(self.maxmedian))
+        print("MaxMedian: " +str(self.maxmedian))
 
     def getminmedian(self):
         return self.minmedian
