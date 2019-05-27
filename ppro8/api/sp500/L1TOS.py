@@ -6,6 +6,7 @@ import os
 from twisted.internet import reactor
 from twisted.internet.protocol import DatagramProtocol
 
+
 class calculatemedian:
 
     def __init__(self, min=0, max=1, value=0.5):
@@ -20,7 +21,7 @@ class calculatemedian:
         # print("Spread: " + str(self.spread))
         # print("Value : " + str(self.value))
         # print("MinMedian: " +str(self.minmedian))
-        print("MaxMedian: " +str(self.maxmedian))
+        # print("MaxMedian: " +str(self.maxmedian))
 
     def getminmedian(self):
         return self.minmedian
@@ -33,6 +34,7 @@ class calculatemedian:
             return True
         else:
             return False
+
 
 class L1:
     def __init__(self):
@@ -132,6 +134,7 @@ class Symbols:
     def listsymbols(self):
         for rec, symbol in self.symbols.items():
             print("Symbol["+str(rec)+"]: " + symbol)
+
 
 class ppro_datagram(DatagramProtocol):
 
