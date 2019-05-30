@@ -138,7 +138,7 @@ class Symbols:
 
 class ppro_datagram(DatagramProtocol):
 
-    def __init__(self):
+    def __init__(self, s="GOOS.NY"):
         self.level1 = L1()
         self.bidpr = ""
         self.askpr = ""
@@ -147,6 +147,9 @@ class ppro_datagram(DatagramProtocol):
         self.asks = 0
         self.bids = 0
         self.neutrals = 0
+        self.time = ""
+        self.this_symbol = s
+        self.symbol = ""
 
     def startProtocol(self):
         # code here what you want to start upon listner creation..
@@ -170,52 +173,58 @@ class ppro_datagram(DatagramProtocol):
 
         #print('{} {} {}'.format(message_dict['Symbol'], message_dict['Message'], msg))
         if message_dict['Message'] == "L1":
-            self.bidpr = message_dict['BidPrice']
-            self.askpr = message_dict['AskPrice']
-            self.asksize = message_dict['AskSize']
-            self.bidsize = message_dict['BidSize']
-            # print("L1 Time: "+message_dict['MarketTime'] + " Symbol: " + message_dict['Symbol'])
-            # print("     Bid Price: " + message_dict['BidPrice'] + " Bid Size: " + message_dict['BidSize'])
-            # print("     Ask Price: " + message_dict['AskPrice'] + " Ask Size: " + message_dict['AskSize'])
-            # x = 1
-            self.level1.update(message_dict['Symbol'], message_dict['BidPrice'], message_dict['AskPrice'], message_dict['BidSize'], message_dict['AskSize'], message_dict['MarketTime'])
+            self.symbol = message_dict['Symbol']
+            if self.symbol == self.this_symbol.__str__():
+                self.bidpr = message_dict['BidPrice']
+                self.askpr = message_dict['AskPrice']
+                self.asksize = message_dict['AskSize']
+                self.bidsize = message_dict['BidSize']
+                self.time = message_dict['MarketTime']
+                # print("L1 Time: "+message_dict['MarketTime'] + " Symbol: " + message_dict['Symbol'])
+                # print("     Bid Price: " + message_dict['BidPrice'] + " Bid Size: " + message_dict['BidSize'])
+                # print("     Ask Price: " + message_dict['AskPrice'] + " Ask Size: " + message_dict['AskSize'])
+                # x = 1
+                self.level1.update(message_dict['Symbol'], message_dict['BidPrice'], message_dict['AskPrice'], message_dict['BidSize'], message_dict['AskSize'], message_dict['MarketTime'])
+
         if message_dict['Message'] == "TOS":
             # print("TOS Time: " + message_dict['MarketTime'] + " Price: " + message_dict['Price'] +
             #       " Size: " + message_dict['Size'])
-            tosprice = message_dict['Price']
-            #print("TOS Price = "+tosprice)
-            print("L1 Bid @ " + self.bidpr + "\tSize: " + self.bidsize + "\tAsk @ " + self.askpr + "\tSize: " + self.asksize)
+            self.symbol = message_dict['Symbol']
+            if self.symbol == self.this_symbol:
+                tosprice = message_dict['Price']
+                tosmarkettime = message_dict['MarketTime']
+                #print("TOS Price = "+tosprice)
+                print(tosmarkettime+": L1 Bid @ " + self.bidpr + "\tSize: " + self.bidsize + "\tAsk @ " + self.askpr + "\tSize: " + self.asksize)
 
-            if float(tosprice) <= float(self.askpr) and float(tosprice) >= float(self.bidpr):
-                if float(tosprice) != float(self.askpr) and float(tosprice) != float(self.bidpr):
-                    print("Mid Point Trade: " + tosprice + " Trade Size: " + message_dict['Size'])
-                    if calculatemedian(self.bidpr, self.askpr, tosprice).ismedianvalue():
-                        self.neutrals = self.neutrals + int(message_dict['Size'])
+                if float(tosprice) <= float(self.askpr) and float(tosprice) >= float(self.bidpr):
+                    if float(tosprice) != float(self.askpr) and float(tosprice) != float(self.bidpr):
+                        print(tosmarkettime+": Mid Point Trade: " + tosprice + " Trade Size: " + message_dict['Size'])
+                        if calculatemedian(self.bidpr, self.askpr, tosprice).ismedianvalue():
+                            self.neutrals = self.neutrals + int(message_dict['Size'])
+                        else:
+                            if float(tosprice) <= calculatemedian(self.bidpr, self.askpr, tosprice).getminmedian():
+                                self.bids = self.bids + int(message_dict['Size'])
+                            if float(tosprice) <= calculatemedian(self.bidpr, self.askpr, tosprice).getmaxmedian():
+                                self.asks = self.asks + int(message_dict['Size'])
                     else:
-                        if float(tosprice) <= calculatemedian(self.bidpr, self.askpr, tosprice).getminmedian():
-                            self.bids = self.bids + int(message_dict['Size'])
-                        if float(tosprice) <= calculatemedian(self.bidpr, self.askpr, tosprice).getmaxmedian():
+                        print(tosmarkettime+": Traded @ " + tosprice + " Size: " + message_dict['Size'])
+                        if float(tosprice) == float(self.askpr):
                             self.asks = self.asks + int(message_dict['Size'])
-                else:
-                    print("Traded @ " + tosprice + " Size: " + message_dict['Size'])
-                    if float(tosprice) == float(self.askpr):
-                        self.asks = self.asks + int(message_dict['Size'])
-                    if float(tosprice) == float(self.bidpr):
-                        self.bids = self.bids + int(message_dict['Size'])
-                print("     Bid Price: " + self.bidpr + "\t Bid Size: " + self.bidsize)
-                print("     Ask Price: " + self.askpr + "\t Ask Size: " + self.asksize)
-                print("     Bid Trade: " + self.bids.__str__())
-                print("     Ask Trade: " + self.asks.__str__())
-                print("     Mid Trade: " + self.neutrals.__str__())
-        # but any named column will not be callable:
-        # message_dict['MarketTime'] " + message_dict['Symbol'])
-        #             print("     Bid Price: " + message_dict['BidPrice'] + " Bid Size: " + message_dict['BidSize'])
-        #             print("     Ask Price: " + message_dict['AskPrice'] + " Ask Size: " + message_dict['AskSize'])
-        # message_dict['Price']
+                        if float(tosprice) == float(self.bidpr):
+                            self.bids = self.bids + int(message_dict['Size'])
+                    print("     Bid Price: " + self.bidpr + "\t Bid Size: " + self.bidsize)
+                    print("     Ask Price: " + self.askpr + "\t Ask Size: " + self.asksize)
+                    print("     Bid Trade: " + self.bids.__str__())
+                    print("     Ask Trade: " + self.asks.__str__())
+                    print("     Mid Trade: " + self.neutrals.__str__())
+            # but any named column will not be callable:
+            # message_dict['MarketTime'] " + message_dict['Symbol'])
+            #             print("     Bid Price: " + message_dict['BidPrice'] + " Bid Size: " + message_dict['BidSize'])
+            #             print("     Ask Price: " + message_dict['AskPrice'] + " Ask Size: " + message_dict['AskSize'])
+            # message_dict['Price']
 
     def connectionRefused(self):
         print("No one listening")
-
 
 Symbols()
 time.sleep(5)
