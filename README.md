@@ -1,20 +1,20 @@
 <H1>ClosingImbalance</H1>
 <p>
-The TSX Closing Imbalance file TSXClosingImbalance.py contains the various classes which are listed after the section on how the program works.
+The TMX Closing Imbalance file TSXClosingImbalance.py contains the various classes which are listed after the section on how the program works.
 
-<H2>How to run TSX Closing Balance Closing mbalance</H2>
-<p>
-  The program is very simple and all that is required is to setup the following lines of code which are located at the end of the file.
+This is a general purpose utility which allows the user to register Imbalances by trading region.
   
+
+<H2>How to run TMX Closing Balance Closing Imbalance</H2>
+<p>
   The porgram waits until a specific date and time and registers the imbalance for the NCSA region (North America) and then waits until 15 seconds after the TSX MOC Imbalance is disseminated (3:40:15 PM) and scans the file for imbalances overs a specified user threshold
   
-  
-  The datetime function wortks as follows datetime(YYYY, MM, DD, HH, MM, SS, 0)
+  The datetime function works as follows datetime(YYYY, MM, DD, HH, MM, SS, 0)
   Pause until June 24, 2019 15:25:00
   
     pause.until(datetime(2019, 6, 24, 15, 25, 0, 0))
     
-  Register the Imbalance Feed in the API 
+  Register the Imbalance Feed in the API has been setup to register all imbalances for the NCSA trade region (North America)
   
     step1 = RegisterImbalance()
     
@@ -22,15 +22,14 @@ The TSX Closing Imbalance file TSXClosingImbalance.py contains the various class
   
     pause.until(datetime(2019, 6, 24, 15, 40, 15, 0))
     
-  Read the imbalance file C:\Program Files (x86)\Ralota\PPro8 Guapy\IMBAL_CIRC_1 created by the PPro API
-  Scan the file and report all trades over 5 milliom
+  Read the imbalance file C:\Program Files (x86)\Ralota\PPro8 Guapy\IMBAL_CIRC_1 created by the PPro API and the scan the file and report all trades over 5 milliom
   
     step2 = TSXClosingImbalance.loadfile(5000000.00, ".TO")
 </p>
 </p>
 <p>
   
-  Project containing the folllowing PYTHON classes used to demonstrate the PPro8 API and to code and test the TSX closing imbalance.
+  Project containing the following PYTHON classes used to demonstrate the PPro8 API and to code and test the TSX closing imbalance.
   The project was developed using Python 3.7.2 and Intellij PYCharm Community Edition 2019.1.1 running on a windows 10 platform.
 </p>
 <li>
@@ -190,8 +189,10 @@ The TSX Closing Imbalance file TSXClosingImbalance.py contains the various class
 </li>
 
 <p>
-  
-The project also conatins a \data folder containing Exchange Symbol Lists for various markets traded at DTTW. Please check to see which symbols are available on specific markets
+<H1>Symbols by Markets</H1>  
+The project also contains a folder called "\data" and this folder contains a list of symbols for each exchange 
+These symbol lists for various markets that can be used by the API or used as training symbol list fopr practice in TMS. 
+Please check to see which symbols are available on specific markets by going to https://www.daytradetheworld.com/wiki/
 
 </p>
   <li>Amsterdam.csv 

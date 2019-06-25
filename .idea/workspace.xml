@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/TSXClosingImbalance.py" line="401" mnemonic="3" />
+    <bookmark url="file://$PROJECT_DIR$/ppro8/api/sp500/TSXClosingImbalance.py" line="401" mnemonic="3" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6b8138ac-5fc9-41c1-a8a3-7873fbb5e7c9" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TSXClosingImbalance.py" beforeDir="false" afterPath="$PROJECT_DIR$/TSXClosingImbalance.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ppro8/api/sp500/L1TOS.py" beforeDir="false" afterPath="$PROJECT_DIR$/ppro8/api/sp500/L1TOS.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RegisterSymbol.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/TSXClosingImbalance.py" beforeDir="false" afterPath="$PROJECT_DIR$/ppro8/api/sp500/TSXClosingImbalance.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -21,10 +22,10 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/TSXClosingImbalance.py">
+        <entry file="file://$PROJECT_DIR$/ppro8/api/sp500/TSXClosingImbalance.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="415" column="37" lean-forward="true" selection-start-line="415" selection-start-column="37" selection-end-line="415" selection-end-column="37" />
+            <state relative-caret-position="172">
+              <caret line="420" column="21" selection-start-line="420" selection-start-column="21" selection-end-line="420" selection-end-column="21" />
               <folding>
                 <element signature="e#0#21#0" expanded="true" />
               </folding>
@@ -33,10 +34,22 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/README.md">
+          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+            <state split_layout="SPLIT">
+              <first_editor relative-caret-position="187">
+                <caret line="194" column="80" selection-start-line="194" selection-start-column="80" selection-end-line="194" selection-end-column="80" />
+              </first_editor>
+              <second_editor />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ppro8/api/sp500/L1TOS.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="148">
-              <caret line="265" lean-forward="true" selection-start-line="265" selection-end-line="265" />
+            <state relative-caret-position="-4626">
+              <caret line="267" column="19" lean-forward="true" selection-start-line="267" selection-start-column="19" selection-end-line="267" selection-end-column="19" />
               <folding>
                 <element signature="e#0#21#0" expanded="true" />
               </folding>
@@ -89,14 +102,16 @@
         <option value="$PROJECT_DIR$/ppro8/api/sp500/Symbols.py" />
         <option value="$PROJECT_DIR$/TSXClosingImbalance.py" />
         <option value="$PROJECT_DIR$/ppro8/api/sp500/L1TOS.py" />
+        <option value="$PROJECT_DIR$/ppro8/api/sp500/TSXClosingImbalance.py" />
+        <option value="$PROJECT_DIR$/README.md" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="790" />
-    <option name="y" value="115" />
-    <option name="width" value="681" />
-    <option name="height" value="707" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="215" />
+    <option name="y" value="82" />
+    <option name="width" value="1315" />
+    <option name="height" value="560" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -108,22 +123,22 @@
         <subPane>
           <expand>
             <path>
-              <item name="ClosingImbalance" type="b2602c69:ProjectViewProjectNode" />
+              <item name="PProUtilities" type="b2602c69:ProjectViewProjectNode" />
               <item name="ClosingImbalance" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="ClosingImbalance" type="b2602c69:ProjectViewProjectNode" />
+              <item name="PProUtilities" type="b2602c69:ProjectViewProjectNode" />
               <item name="ClosingImbalance" type="462c0819:PsiDirectoryNode" />
               <item name="ppro8" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="ClosingImbalance" type="b2602c69:ProjectViewProjectNode" />
+              <item name="PProUtilities" type="b2602c69:ProjectViewProjectNode" />
               <item name="ClosingImbalance" type="462c0819:PsiDirectoryNode" />
               <item name="ppro8" type="462c0819:PsiDirectoryNode" />
               <item name="api" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="ClosingImbalance" type="b2602c69:ProjectViewProjectNode" />
+              <item name="PProUtilities" type="b2602c69:ProjectViewProjectNode" />
               <item name="ClosingImbalance" type="462c0819:PsiDirectoryNode" />
               <item name="ppro8" type="462c0819:PsiDirectoryNode" />
               <item name="api" type="462c0819:PsiDirectoryNode" />
@@ -143,6 +158,9 @@
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\tctech\PycharmProjects\ClosingImbalance\ppro8\api\sp500" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\tctech\PycharmProjects\ClosingImbalance\data" />
       <recent name="C:\Users\tctech\PycharmProjects\ClosingImbalance" />
@@ -160,28 +178,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.L1TOS">
-    <configuration name="L1" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="PProUtilities" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/ppro8/api/sp500" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/ppro8/api/sp500/L1.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
+  <component name="RunManager" selected="Python.TSXClosingImbalance (1)">
     <configuration name="L1TOS" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="PProUtilities" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -224,6 +221,27 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="TSXClosingImbalance (1)" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="PProUtilities" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/ppro8/api/sp500" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/ppro8/api/sp500/TSXClosingImbalance.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="TSXClosingImbalance" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="PProUtilities" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -236,7 +254,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/TSXClosingImbalance.py" />
+      <option name="SCRIPT_NAME" value="C:\Users\tctech\PycharmProjects\ClosingImbalance\ppro8\api\sp500\TSXClosingImbalance.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -332,11 +350,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.TSXClosingImbalance (1)" />
         <item itemvalue="Python.L1TOS" />
         <item itemvalue="Python.TSXClosingImbalance" />
         <item itemvalue="Python.Symbols" />
         <item itemvalue="Python.median" />
-        <item itemvalue="Python.L1" />
       </list>
     </recent_temporary>
   </component>
@@ -400,18 +418,47 @@
       <option name="project" value="LOCAL" />
       <updated>1561484132604</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="New Code for L1 and TOS tape reader">
+      <created>1561484537737</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1561484537737</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1616" height="886" extended-state="6" />
+    <frame x="215" y="82" width="1315" height="560" extended-state="0" />
+    <editor active="true" />
     <layout>
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.07091633" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32934928" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.7320341" weight="0.12177986" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49960908" weight="0.3997155" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info active="true" anchor="bottom" id="Version Control" order="7" sideWeight="0.89361703" visible="true" weight="0.07025761" />
+      <window_info anchor="bottom" id="Terminal" order="8" />
+      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.26796588" side_tool="true" weight="0.3100233" />
+      <window_info anchor="bottom" id="Python Console" order="10" weight="0.3298731" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="R Graphics" order="3" weight="0.3289183" />
+      <window_info anchor="right" id="R Packages" order="4" />
+    </layout>
+    <layout-to-restore>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.20501286" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.7320341" visible="true" weight="0.55909693" />
+      <window_info anchor="bottom" id="Find" order="1" visible="true" weight="0.32934928" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.7320341" weight="0.55909693" />
       <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49960908" weight="0.3997155" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -424,27 +471,6 @@
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="right" id="R Graphics" order="3" weight="0.3289183" />
-      <window_info anchor="right" id="R Packages" order="4" />
-    </layout>
-    <layout-to-restore>
-      <window_info content_ui="combo" id="Project" order="0" weight="0.20543294" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.7320341" visible="true" weight="0.2430279" />
-      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49960908" weight="0.3997155" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Version Control" order="7" sideWeight="0.89361703" weight="0.32958803" />
-      <window_info anchor="bottom" id="Terminal" order="8" />
-      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.26796588" side_tool="true" weight="0.3100233" />
-      <window_info anchor="bottom" id="Python Console" order="10" weight="0.3298731" />
-      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="right" id="R Graphics" order="3" />
       <window_info anchor="right" id="R Packages" order="4" />
     </layout-to-restore>
   </component>
@@ -532,26 +558,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/RegisterSymbol.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="427">
-          <caret line="58" column="5" selection-start-line="58" selection-start-column="5" selection-end-line="58" selection-end-column="5" />
-          <folding>
-            <element signature="e#0#21#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/TSXClosingImbalance.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="415" column="37" lean-forward="true" selection-start-line="415" selection-start-column="37" selection-end-line="415" selection-end-column="37" />
-          <folding>
-            <element signature="e#0#21#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/ppro8/api/sp500/L1.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="148">
@@ -561,11 +567,41 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/ppro8/api/sp500/L1TOS.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="148">
-          <caret line="265" lean-forward="true" selection-start-line="265" selection-end-line="265" />
+        <state relative-caret-position="-4626">
+          <caret line="267" column="19" lean-forward="true" selection-start-line="267" selection-start-column="19" selection-end-line="267" selection-end-column="19" />
           <folding>
             <element signature="e#0#21#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RegisterSymbol.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="544">
+          <caret line="32" column="16" selection-start-line="32" selection-start-column="16" selection-end-line="32" selection-end-column="16" />
+          <folding>
+            <element signature="e#0#21#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ppro8/api/sp500/TSXClosingImbalance.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="172">
+          <caret line="420" column="21" selection-start-line="420" selection-start-column="21" selection-end-line="420" selection-end-column="21" />
+          <folding>
+            <element signature="e#0#21#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="187">
+            <caret line="194" column="80" selection-start-line="194" selection-start-column="80" selection-end-line="194" selection-end-column="80" />
+          </first_editor>
+          <second_editor />
         </state>
       </provider>
     </entry>

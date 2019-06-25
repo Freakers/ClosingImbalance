@@ -417,7 +417,7 @@ class ppro_datagram(DatagramProtocol):
 #reactor.listenUDP(5555, ppro_datagram())
 #reactor.run()
 
-# pause.until(datetime(2019, 6, 24, 15, 25, 0, 0))
-# step1 = RegisterImbalance()
+pause.until(datetime(2019, 6, 24, 15, 25, 0, 0))
+step1 = RegisterImbalance()
 pause.until(datetime(2019, 6, 24, 15, 40, 15, 0))
 step2 = TSXClosingImbalance.loadfile(5000000.00, ".TO")
