@@ -1,5 +1,33 @@
 <H1>ClosingImbalance</H1>
+<p>
+The TSX Closing Imbalance file TSXClosingImbalance.py contains the various classes which are listed after the section on how the program works.
 
+<H2>How to run TSX Closing Balance Closing mbalance</H2>
+<p>
+  The program is very simple and all that is required is to setup the following lines of code which are located at the end of the file.
+  
+  The porgram waits until a specific date and time and registers the imbalance for the NCSA region (North America) and then waits until 15 seconds after the TSX MOC Imbalance is disseminated (3:40:15 PM) and scans the file for imbalances overs a specified user threshold
+  
+  
+  The datetime function wortks as follows datetime(YYYY, MM, DD, HH, MM, SS, 0)
+  Pause until June 24, 2019 15:25:00
+  
+    pause.until(datetime(2019, 6, 24, 15, 25, 0, 0))
+    
+  Register the Imbalance Feed in the API 
+  
+    step1 = RegisterImbalance()
+    
+  Pause until June 24, 2019 15:40:15
+  
+    pause.until(datetime(2019, 6, 24, 15, 40, 15, 0))
+    
+  Read the imbalance file C:\Program Files (x86)\Ralota\PPro8 Guapy\IMBAL_CIRC_1 created by the PPro API
+  Scan the file and report all trades over 5 milliom
+  
+    step2 = TSXClosingImbalance.loadfile(5000000.00, ".TO")
+</p>
+</p>
 <p>
   
   Project containing the folllowing PYTHON classes used to demonstrate the PPro8 API and to code and test the TSX closing imbalance.
