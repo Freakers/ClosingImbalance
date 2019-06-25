@@ -79,7 +79,7 @@ class OrderStatus:
         msg['OrderState'] = order_state
         msg['OrderFlags'] = order_flags
         print("Processing Order Status Message")
-        self.OrderStatus[symbol+msgtime] = msg
+        self.OrderStatus[symbol + msgtime] = msg
 
 
 class OrderEvents:
@@ -98,8 +98,8 @@ class OrderEvents:
         self.Description = ""
         self.OrderEvent = {}
 
-
-    def update(self, localtime, msg, msgtime, ordnum, orginatorseqid, eventmsgtype, eventflavour, eventorginatorid, price, size, description):
+    def update(self, localtime, msg, msgtime, ordnum, orginatorseqid, eventmsgtype, eventflavour, eventorginatorid,
+               price, size, description):
         msg = {}
         msg['LocalTime'] = localtime
         msg['Message'] = msg
@@ -142,12 +142,13 @@ class L1:
         msg['askvol'] = askvol
         msg['totbidvol'] = self.totalbidvolume
         msg['totaskvol'] = self.totalaskvolume
-        #print("Processing L1 Message")
+        # print("Processing L1 Message")
         self.l1[symbol] = msg
-        #self.list()`
+        # self.list()`
 
     def list(self):
         print(self.l1.items().__str__())
+
 
 class Orders:
 
@@ -157,24 +158,25 @@ class Orders:
         self.registerorderevent(feed_type, region)
 
     def registerorderstatus(self, feedtype, region):
-        print("Register Order Status - Region: "+region+"\tFeed: "+feedtype)
-        #Register?region=1&feedtype=OSTAT&output=[bytype]
+        print("Register Order Status - Region: " + region + "\tFeed: " + feedtype)
+        # Register?region=1&feedtype=OSTAT&output=[bytype]
         print('Register Order Status Request  : http://localhost:8080/Register?region=' +
-              region+'&feedtype=ORDEREVENT&output='+feedtype)
+              region + '&feedtype=ORDEREVENT&output=' + feedtype)
         with urllib.request.urlopen('http://localhost:8080/Register?region=' +
-                                    region+'&feedtype=ORDEREVENT&output='+feedtype) as response1:
+                                    region + '&feedtype=ORDEREVENT&output=' + feedtype) as response1:
             html1: object = response1.read()
             print("Register Order Status Response : " + html1.__str__())
 
     def registerorderevent(self, feedtype, region):
-        print("Register Order Event - Region: "+region+"\tFeed: "+feedtype)
-        #Register?region=1&feedtype=ORDEREVENT & output=[bykey|bytype]
+        print("Register Order Event - Region: " + region + "\tFeed: " + feedtype)
+        # Register?region=1&feedtype=ORDEREVENT & output=[bykey|bytype]
         print('Register Order Request  : http://localhost:8080/Register?region=' +
-              region+'&feedtype=ORDEREVENT&output='+feedtype)
+              region + '&feedtype=ORDEREVENT&output=' + feedtype)
         with urllib.request.urlopen('http://localhost:8080/Register?region=' +
-                                    region+'&feedtype=ORDEREVENT&output='+feedtype) as response1:
+                                    region + '&feedtype=ORDEREVENT&output=' + feedtype) as response1:
             html1: object = response1.read()
             print("Register Order Event Response : " + html1.__str__())
+
 
 class Symbols:
 
@@ -197,42 +199,42 @@ class Symbols:
         print("Starting THREADS to register L1 AND TOS for Symbol List")
         for record, symbol in self.symbols.items():
             print(symbol)
-            t = threading.Thread(target=self.registersymbol, args=(symbol, "L1", "5555", ))
+            t = threading.Thread(target=self.registersymbol, args=(symbol, "L1", "5555",))
             t.start()
-            t = threading.Thread(target=self.registersymbol, args=(symbol, "TOS", "5555", ))
+            t = threading.Thread(target=self.registersymbol, args=(symbol, "TOS", "5555",))
             t.start()
 
     def deregistersymbols(self):
         print("Starting THREADS to deregister L1 AND TOS for Symbol List")
         for record, symbol in self.symbols.items():
             print(symbol)
-            t = threading.Thread(target=self.deregistersymbol, args=(symbol, "L1", "1", ))
+            t = threading.Thread(target=self.deregistersymbol, args=(symbol, "L1", "1",))
             t.start()
-            t = threading.Thread(target=self.deregistersymbol, args=(symbol, "TOS", "1", ))
+            t = threading.Thread(target=self.deregistersymbol, args=(symbol, "TOS", "1",))
             t.start()
 
     def registersymbol(self, symbol, feedType, output):
-        print('Register Symbol Request  : http://localhost:8080/Register?symbol='+symbol+'&feedtype='+feedType)
-        with urllib.request.urlopen('http://localhost:8080/Register?symbol='+symbol+'&feedtype='+feedType) \
+        print('Register Symbol Request  : http://localhost:8080/Register?symbol=' + symbol + '&feedtype=' + feedType)
+        with urllib.request.urlopen('http://localhost:8080/Register?symbol=' + symbol + '&feedtype=' + feedType) \
                 as response1:
             html1: object = response1.read()
             print("Register Symbol Response : " + html1.__str__())
-        print('http://localhost:8080/SetOutput?symbol='+symbol +'&feedtype='+feedType+'&output='+output+'&status=on')
-        with urllib.request.urlopen('http://localhost:8080/SetOutput?symbol='+symbol +
-                                    '&feedtype='+feedType+'&output='+output+'&status=on') as response2:
+        print(
+            'http://localhost:8080/SetOutput?symbol=' + symbol + '&feedtype=' + feedType + '&output=' + output + '&status=on')
+        with urllib.request.urlopen('http://localhost:8080/SetOutput?symbol=' + symbol +
+                                    '&feedtype=' + feedType + '&output=' + output + '&status=on') as response2:
             html2: object = response2.read()
-            print("Register Output: "+html2.__str__())
-
+            print("Register Output: " + html2.__str__())
 
     def deregistersymbol(self, symbol, feedType, region, output):
-        print('Deregister Symbol Request  : http://localhost:8080/Deregister?symbol='+symbol+'&region=' +
-              region+'&feedtype='+feedType)
-        with urllib.request.urlopen('http://localhost:8080/SetOutput?symbol='+symbol+
-                                    '&feedtype='+feedType+'&output='+output+'&status=off') as response0:
+        print('Deregister Symbol Request  : http://localhost:8080/Deregister?symbol=' + symbol + '&region=' +
+              region + '&feedtype=' + feedType)
+        with urllib.request.urlopen('http://localhost:8080/SetOutput?symbol=' + symbol +
+                                    '&feedtype=' + feedType + '&output=' + output + '&status=off') as response0:
             html0: object = response0.read()
             print("Deregister Symbol Response : " + html0.__str__())
-        with urllib.request.urlopen('http://localhost:8080/Deregister?symbol='+symbol+'&region='+region +
-                                    '&feedtype='+feedType) as response1:
+        with urllib.request.urlopen('http://localhost:8080/Deregister?symbol=' + symbol + '&region=' + region +
+                                    '&feedtype=' + feedType) as response1:
             html1: object = response1.read()
             print("Deregister Symbol Response : " + html1.__str__())
 
@@ -242,16 +244,18 @@ class Symbols:
         file = open(file, "r")
         recordcount = 1
         for symbol in file:
-            #print(symbol.rstrip())
+            # print(symbol.rstrip())
             self.symbols[recordcount] = symbol.rstrip()
             recordcount += 1
 
     def listsymbols(self):
         for rec, symbol in self.symbols.items():
-            print("Symbol["+str(rec)+"]: " + symbol)
+            print("Symbol[" + str(rec) + "]: " + symbol)
+
 
 class SellFutures:
     """Submit Futures Contract to sell based on the symbol and contract size, default is ES|M19.CM 1 Contract"""
+
     def __init__(self, symbol="MES\M19.CM", shares="1"):
         print("Sell " + shares + " Contract Market:" + symbol)
         with urllib.request.urlopen('http://localhost:8080/ExecuteOrder?symbol=' + symbol +
@@ -260,9 +264,11 @@ class SellFutures:
             html1: object = response1.read()
             print("API - Execute Order Response : " + html1.__str__())
 
+
 class CancelFuture:
     """Submit Futures Contract to cancel the order based on
         the order number associated to the symbol, default is ES|M19.CM"""
+
     def __init__(self, ordernumber="1234567890", symbol="MES\M19.CM"):
         print("Cancel Order Number: " + ordernumber + " for symbol: " + symbol)
         with urllib.request.urlopen('http://localhost:8080/CancelOrder?type=ordernumber' +
@@ -270,8 +276,10 @@ class CancelFuture:
             html1: object = response1.read()
             print("API - Cancel Order Response : " + html1.__str__())
 
+
 class BuyFutures:
     """Submit Futures Contract to buy based on the symbol and contract size, default is ES|M19.CM 1 Contract"""
+
     def __init__(self, symbol="MES\\U19.CM", shares="1"):
         print("Sell " + shares + " Contract Market:" + symbol)
         with urllib.request.urlopen('http://localhost:8080/ExecuteOrder?symbol=' + symbol +
@@ -315,22 +323,22 @@ class ppro_datagram(DatagramProtocol):
 
         # when processing PPro8 data feeds, processing the line into a dictionary is very useful:
         for item in msg.split(','):
-            #print(item)
+            # print(item)
             if "=" in item:
                 couple = item.split('=')
                 message_dict[couple[0]] = couple[1]
-        #print(message_dict.__str__())
+        # print(message_dict.__str__())
         # now you can call specific data by name in the line you're processing instead of counting colums
         # See the print statement below for examples
 
-        #print('{}\t{}\t{}'.format(message_dict['Symbol'], message_dict['Message'], msg))
+        # print('{}\t{}\t{}'.format(message_dict['Symbol'], message_dict['Message'], msg))
         if message_dict['Message'] == "OrderEvent":
             print("Order Event Message")
 
         if message_dict['Message'] == "OrderStatus":
             ltime = str(message_dict['LocalTime'])
             mtime = str(message_dict['MarketDateTime'])
-            sym =  str(message_dict['Symbol'])
+            sym = str(message_dict['Symbol'])
             side = str(message_dict['Side'])
             price = str(message_dict['Price'])
             shares = str(message_dict['Shares'])
@@ -355,12 +363,13 @@ class ppro_datagram(DatagramProtocol):
                 self.bidsize = message_dict['BidSize']
                 self.time = message_dict['MarketTime']
                 # print("L1 Time: "+message_dict['MarketTime'] + " Symbol: " + message_dict['Symbol'])
-                #print("L1-> Bid Price:\t" + message_dict['BidPrice'] + "\tBid Size: " + message_dict['BidSize'])
-                #print("L1-> Ask Price:\t" + message_dict['AskPrice'] + "\tAsk Size: " + message_dict['AskSize'])
+                # print("L1-> Bid Price:\t" + message_dict['BidPrice'] + "\tBid Size: " + message_dict['BidSize'])
+                # print("L1-> Ask Price:\t" + message_dict['AskPrice'] + "\tAsk Size: " + message_dict['AskSize'])
                 # print(self.time+"\tBid Price:\t" + self.bidpr + "\tBid Size:\t" + self.bidsize + "\tAsk Price:\t" +
                 #       self.askpr + "\tAsk Size:\t" + self.asksize)
                 # # x = 1
-                self.level1.update(message_dict['Symbol'], message_dict['BidPrice'], message_dict['AskPrice'], message_dict['BidSize'], message_dict['AskSize'], message_dict['MarketTime'])
+                self.level1.update(message_dict['Symbol'], message_dict['BidPrice'], message_dict['AskPrice'],
+                                   message_dict['BidSize'], message_dict['AskSize'], message_dict['MarketTime'])
 
         if message_dict['Message'] == "TOS":
             # print("TOS Time: " + message_dict['MarketTime'] + " Price: " + message_dict['Price'] +
@@ -369,13 +378,13 @@ class ppro_datagram(DatagramProtocol):
             if self.symbol == self.this_symbol:
                 tosprice = message_dict['Price']
                 tosmarkettime = message_dict['MarketTime']
-                #print("TOS Price = "+tosprice)
-                print(tosmarkettime+": L1 Bid @ " + self.bidpr + "\tSize: " + self.bidsize +
+                # print("TOS Price = "+tosprice)
+                print(tosmarkettime + ": L1 Bid @ " + self.bidpr + "\tSize: " + self.bidsize +
                       "\tAsk @ " + self.askpr + "\tSize: " + self.asksize)
 
                 if float(tosprice) <= float(self.askpr) and float(tosprice) >= float(self.bidpr):
                     if float(tosprice) != float(self.askpr) and float(tosprice) != float(self.bidpr):
-                        print(tosmarkettime+": Mid Point Trade: " + tosprice + " Trade Size: " + message_dict['Size'])
+                        print(tosmarkettime + ": Mid Point Trade: " + tosprice + " Trade Size: " + message_dict['Size'])
                         if calculatemedian(self.bidpr, self.askpr, tosprice).ismedianvalue():
                             self.neutrals = self.neutrals + int(message_dict['Size'])
                         else:
@@ -384,7 +393,7 @@ class ppro_datagram(DatagramProtocol):
                             if float(tosprice) <= calculatemedian(self.bidpr, self.askpr, tosprice).getmaxmedian():
                                 self.asks = self.asks + int(message_dict['Size'])
                     else:
-                        print(tosmarkettime+": Traded @ " + tosprice + " Size: " + message_dict['Size'])
+                        print(tosmarkettime + ": Traded @ " + tosprice + " Size: " + message_dict['Size'])
                         if float(tosprice) == float(self.askpr):
                             self.asks = self.asks + int(message_dict['Size'])
                         if float(tosprice) == float(self.bidpr):
@@ -393,7 +402,7 @@ class ppro_datagram(DatagramProtocol):
                           self.askpr + "\tAsk Size:\t" + self.asksize)
                     print("Trade into Bid:\t" + self.bids.__str__())
                     print("Trade into Ask:\t" + self.asks.__str__())
-                    print("Trade MidPoint:\t" + self.neutrals.__str__()+'\n')
+                    print("Trade MidPoint:\t" + self.neutrals.__str__() + '\n')
             # but any named column will not be callable:
             # message_dict['MarketTime'] " + message_dict['Symbol'])
             #             print("     Bid Price: " + message_dict['BidPrice'] + " Bid Size: " + message_dict['BidSize'])
@@ -404,11 +413,12 @@ class ppro_datagram(DatagramProtocol):
         print("No one listening")
 
     def elapsedtime(self):
-        if time.time()-self.starttime > 60.00:
+        if time.time() - self.starttime > 60.00:
             self.starttime = time.time()
             self.asks = 0
             self.bids = 0
             self.neutrals = 0
+
 
 class ppro_order_datagram(DatagramProtocol):
 
@@ -427,7 +437,7 @@ class ppro_order_datagram(DatagramProtocol):
         self.this_symbol = s
         self.symbol = ""
         self.starttime = time.time()
-        print("\nStarting L1TOS monitor for symbol: "+self.this_symbol.__str__())
+        print("\nStarting L1TOS monitor for symbol: " + self.this_symbol.__str__())
 
     def startProtocol(self):
         # code here what you want to start upon listner creation..
@@ -444,15 +454,15 @@ class ppro_order_datagram(DatagramProtocol):
 
         # when processing PPro8 data feeds, processing the line into a dictionary is very useful:
         for item in msg.split(','):
-            #print(item)
+            # print(item)
             if "=" in item:
                 couple = item.split('=')
                 message_dict[couple[0]] = couple[1]
-        #print(message_dict.__str__())
+        # print(message_dict.__str__())
         # now you can call specific data by name in the line you're processing instead of counting colums
         # See the print statement below for examples
 
-        #print('{}\t{}\t{}'.format(message_dict['Symbol'], message_dict['Message'], msg))
+        # print('{}\t{}\t{}'.format(message_dict['Symbol'], message_dict['Message'], msg))
         # def update(self, localtime, msg, msgtime, ordnum, orginatorseqid, eventmsgtype, eventflavour, eventorginatorid,
         #            price, size, description):
 
@@ -477,7 +487,7 @@ class ppro_order_datagram(DatagramProtocol):
         if message_dict['Message'] == "OrderStatus":
             ltime = str(message_dict['LocalTime'])
             mtime = str(message_dict['MarketDateTime'])
-            sym =  str(message_dict['Symbol'])
+            sym = str(message_dict['Symbol'])
             side = str(message_dict['Side'])
             price = str(message_dict['Price'])
             shares = str(message_dict['Shares'])
@@ -503,12 +513,13 @@ class ppro_order_datagram(DatagramProtocol):
                 self.bidsize = message_dict['BidSize']
                 self.time = message_dict['MarketTime']
                 # print("L1 Time: "+message_dict['MarketTime'] + " Symbol: " + message_dict['Symbol'])
-                #print("L1-> Bid Price:\t" + message_dict['BidPrice'] + "\tBid Size: " + message_dict['BidSize'])
-                #print("L1-> Ask Price:\t" + message_dict['AskPrice'] + "\tAsk Size: " + message_dict['AskSize'])
+                # print("L1-> Bid Price:\t" + message_dict['BidPrice'] + "\tBid Size: " + message_dict['BidSize'])
+                # print("L1-> Ask Price:\t" + message_dict['AskPrice'] + "\tAsk Size: " + message_dict['AskSize'])
                 # print(self.time+"\tBid Price:\t" + self.bidpr + "\tBid Size:\t" + self.bidsize + "\tAsk Price:\t" +
                 #       self.askpr + "\tAsk Size:\t" + self.asksize)
                 # # x = 1
-                self.level1.update(message_dict['Symbol'], message_dict['BidPrice'], message_dict['AskPrice'], message_dict['BidSize'], message_dict['AskSize'], message_dict['MarketTime'])
+                self.level1.update(message_dict['Symbol'], message_dict['BidPrice'], message_dict['AskPrice'],
+                                   message_dict['BidSize'], message_dict['AskSize'], message_dict['MarketTime'])
 
         if message_dict['Message'] == "TOS":
             # print("TOS Time: " + message_dict['MarketTime'] + " Price: " + message_dict['Price'] +
@@ -518,7 +529,7 @@ class ppro_order_datagram(DatagramProtocol):
                 print("In TOS Message by symbol")
                 tosprice = message_dict['Price']
                 tosmarkettime = message_dict['MarketTime']
-                #print("TOS Price = "+tosprice)
+                # print("TOS Price = "+tosprice)
                 # print(tosmarkettime+": L1 Bid @ " + self.bidpr + "\tSize: " + self.bidsize +
                 #       "\tAsk @ " + self.askpr + "\tSize: " + self.asksize)
             #         print("Bid Price:\t" + self.bidpr + "\tBid Size:\t" + self.bidsize + "\tAsk Price:\t" +
@@ -536,7 +547,7 @@ class ppro_order_datagram(DatagramProtocol):
         print("No one listening")
 
     def elapsedtime(self):
-        if time.time()-self.starttime > 60.00:
+        if time.time() - self.starttime > 60.00:
             self.starttime = time.time()
             self.asks = 0
             self.bids = 0
@@ -547,4 +558,3 @@ Symbols("C:\\Users\\tctech\\Desktop\\Trading Assignments\\Stock List\\SymbolList
 time.sleep(5)
 reactor.listenUDP(5555, ppro_datagram("MES\\U19.CM"))
 reactor.run()
-

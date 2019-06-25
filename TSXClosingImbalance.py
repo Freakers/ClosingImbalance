@@ -4,7 +4,8 @@ import time
 import os
 from twisted.internet import reactor
 from twisted.internet.protocol import DatagramProtocol
-
+import pause
+from datetime import datetime
 
 class Symbols:
     symbols = {}
@@ -187,13 +188,14 @@ class TSXClosingImbalance:
         """Load the Imbalance File for Parsing into the imbalancerecord(s) data dictionaries"""
         print("Start Load Imbalance File: "+time.asctime())
         #file = open("C:\\Users\\tctech\\Documents\\Trading Notes\\ClosingImbalance.txt", "r")
-        file = open("C:\\Program Files (x86)\\Ralota\\PPro8 Ekeko\\IMBAL_CIRC_1.log", "r")
+        file = open("C:\\Program Files (x86)\\Ralota\\PPro8 Guapy\\IMBAL_CIRC_1.log", "r")
         recordcount = 1
         imbalancerecords = {}
         for record in file:
             imbalancerecord = {}
             #print(record.__str__())
             if str(".TO") in record:
+                #print(record)
                 for field in record.split(','):
                     fieldName  = field.split('=').__getitem__(0)
                     fieldValue = field.split('=').__getitem__(1)
@@ -207,23 +209,23 @@ class TSXClosingImbalance:
             #print("Volume        : "+ imbalancerecords[key]['Volume'])
             if float(imbalancerecords[key]['AuctionPrice']) * float(int(imbalancerecords[key]['Volume'])) >= tradeValue:
                 if imbalancerecords[key]['Side'] == 'S' and imbalancerecords[key]['Symbol'].endswith(market):
-                    print("Symbol : " + imbalancerecords[key]['Symbol'] +
-                          ", Market : " + imbalancerecords[key]['Source'] +
-                          ", Side : " + imbalancerecords[key]['Side'] +
-                          ", Market Time : " + imbalancerecords[key]['MarketTime'] +
-                          ", Volume : " + imbalancerecords[key]['Volume'] +
-                          ", AuctionPrice : " + imbalancerecords[key]['AuctionPrice'] +
-                          ", TradeValue : " + format(float(imbalancerecords[key]['AuctionPrice']) * float(int(imbalancerecords[key]['Volume'])), "f"))
+                    print("Market Time: " + imbalancerecords[key]['MarketTime'] +
+                          "\tSymbol: " + imbalancerecords[key]['Symbol'].ljust(10) +
+                          "\tMarket: " + imbalancerecords[key]['Source'] +
+                          "\tSide: " + imbalancerecords[key]['Side'].ljust(4) +
+                          "\tVolume: " + imbalancerecords[key]['Volume'].ljust(9) +
+                          "\tAuctionPrice: " + imbalancerecords[key]['AuctionPrice'] +
+                          "\tTradeValue: " + format(float(imbalancerecords[key]['AuctionPrice']) * float(int(imbalancerecords[key]['Volume'])), ',.2f'))
                     #BuyMarketOrder(imbalancerecords[key]['Symbol'], "100")
 
                 if imbalancerecords[key]['Side'] == 'B' and imbalancerecords[key]['Symbol'].endswith(market):
-                    print("Symbol : " + imbalancerecords[key]['Symbol'] +
-                          ", Market : " + imbalancerecords[key]['Source'] +
-                          ", Side : " + imbalancerecords[key]['Side'] +
-                          ", Market Time : " + imbalancerecords[key]['MarketTime'] +
-                          ", Volume : " + imbalancerecords[key]['Volume'] +
-                          ", AuctionPrice : " + imbalancerecords[key]['AuctionPrice'] +
-                          ", TradeValue : " + format(float(imbalancerecords[key]['AuctionPrice']) * float(int(imbalancerecords[key]['Volume'])), "f"))
+                    print("Market Time: " + imbalancerecords[key]['MarketTime'] +
+                          "\tSymbol: " + imbalancerecords[key]['Symbol'].ljust(10) +
+                          "\tMarket: " + imbalancerecords[key]['Source'] +
+                          "\tSide: " + imbalancerecords[key]['Side'].ljust(4) +
+                          "\tVolume: " + imbalancerecords[key]['Volume'].ljust(9) +
+                          "\tAuctionPrice: " + imbalancerecords[key]['AuctionPrice'] +
+                          "\tTradeValue: " + format(float(imbalancerecords[key]['AuctionPrice']) * float(int(imbalancerecords[key]['Volume'])), ',.2f'))
                     #SellMarketOrder(imbalancerecords[key]['Symbol'], "100")
         return ""
 
@@ -361,9 +363,9 @@ class ppro_datagram(DatagramProtocol):
             askpr = float(message_dict['AskPrice'])
             bids = 0
             asks = 0
-            print("L1 Time: "+message_dict['MarketTime'] + " Symbol: " + message_dict['Symbol'])
-            print("     Bid Price: " + message_dict['BidPrice'] + " Bid Size: " + message_dict['BidSize'])
-            print("     Ask Price: " + message_dict['AskPrice'] + " Ask Size: " + message_dict['AskSize'])
+            print("L1 Time  :\\t" + message_dict['MarketTime'] + "\\tSymbol: " + message_dict['Symbol'])
+            print("Bid Price:\\t" + message_dict['BidPrice'] + "\\tBid Size: " + message_dict['BidSize'])
+            print("Ask Price:\\t" + message_dict['AskPrice'] + "\\tAsk Size: " + message_dict['AskSize'])
             x = 1
         if message_dict['Message'] == "TOS":
             print("TOS Time: " + message_dict['MarketTime'] + " Price: " + message_dict['Price'] +
@@ -394,10 +396,10 @@ class ppro_datagram(DatagramProtocol):
 #test4 = ClosingImbalanceFile()
 #testBuy  = BuyMarketOrder("ES\M19.CM", "1")
 #test6Sell = SellMarketOrder("ACB.TO", 100)
-#test7 = RegisterImbalance()
+
 #test8 = ImbalanceFileReader()
-#test5 = Imbalance().loadfile(100000000.00)
-test9 = TSXClosingImbalance.loadfile(8000000.00, ".TO")
+#test5 = Imbalance().loadfile(50000000.00)
+
 #test10 = BuyFutures()
 #test11 = registerSP500()
 #x = LoadSymbols()
@@ -414,3 +416,8 @@ test9 = TSXClosingImbalance.loadfile(8000000.00, ".TO")
 #TOS = RegisterSymbol("CRON.TO", "TOS", "5555")
 #reactor.listenUDP(5555, ppro_datagram())
 #reactor.run()
+
+# pause.until(datetime(2019, 6, 24, 15, 25, 0, 0))
+# step1 = RegisterImbalance()
+pause.until(datetime(2019, 6, 24, 15, 40, 15, 0))
+step2 = TSXClosingImbalance.loadfile(5000000.00, ".TO")
