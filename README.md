@@ -1,6 +1,6 @@
-<H1>ClosingImbalance</H1>
+<H1>Closing Imbalance</H1>
 <p>
-The TMX Closing Imbalance file TSXClosingImbalance.py contains the various classes which are listed after the section on how the program works.
+The TMX Closing Imbalance code TSXClosingImbalance.py contains the various classes which are listed after the section on how the program works.
 
 This is a general purpose utility which allows the user to register Imbalances by trading region.
   
@@ -231,3 +231,8 @@ Please check to see which symbols are available on specific markets by going to 
   <li>Vienna.csv
   <li>Warsaw.csv
   <li>Xetra.csv
+
+<H2>How to Run L1TOS consolidated feed reader</H2>
+<p>
+
+</p>
