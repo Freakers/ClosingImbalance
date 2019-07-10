@@ -81,8 +81,8 @@ class RegisterDictionarySymbols:
 
 class SnapShot:
     """Create Snapshot of Time of Sale in PPro8 API"""
-    def __init__(self, symbols=['CRON.TO', 'XO.TO', 'TD.TO'], feedType="TOS"):
-        for symbol in symbols:
+    def __init__(self, feedType="TOS", **symbols):
+        for k, symbol in symbols:
             print('Snapshot Request  : http://localhost:8080/GetSnapshot?symbol='+symbol+'&feedtype='+feedType)
             with urllib.request.urlopen('http://localhost:8080/GetSnapshot?symbol='+symbol+'&feedtype='+feedType) as response:
                 html1: object = response.read()
@@ -177,14 +177,13 @@ class Imbalance:
 
 class TSXClosingImbalance:
     """Data Class Used to store the TSX closing imbalance information in the Imbalance Records Dictionary"""
-
-
+    mrec = {}
     def __init__(self):
         print("Initialize Imbalance Object")
 
-
-    @staticmethod
     def loadfile(tradeValue, market):
+        moc_records = {}
+        moc_dict = {}
         """Load the Imbalance File for Parsing into the imbalancerecord(s) data dictionaries"""
         print("Start Load Imbalance File: "+time.asctime())
         #file = open("C:\\Users\\tctech\\Documents\\Trading Notes\\ClosingImbalance.txt", "r")
@@ -194,7 +193,7 @@ class TSXClosingImbalance:
         for record in file:
             imbalancerecord = {}
             #print(record.__str__())
-            if str(".TO") in record:
+            if str(market) in record:
                 #print(record)
                 for field in record.split(','):
                     fieldName  = field.split('=').__getitem__(0)
@@ -204,6 +203,7 @@ class TSXClosingImbalance:
                     #print(imbalancerecord)
                 recordcount = recordcount + 1
         print("Imbalance Load Completed:  "+time.asctime())
+        recordcount = 1
         for key, value in imbalancerecords.items():
             #print("Auction Price: " + imbalancerecords[key]['AuctionPrice'])
             #print("Volume        : "+ imbalancerecords[key]['Volume'])
@@ -216,6 +216,14 @@ class TSXClosingImbalance:
                           "\tVolume: " + imbalancerecords[key]['Volume'].ljust(9) +
                           "\tAuctionPrice: " + imbalancerecords[key]['AuctionPrice'] +
                           "\tTradeValue: " + format(float(imbalancerecords[key]['AuctionPrice']) * float(int(imbalancerecords[key]['Volume'])), ',.2f'))
+                    moc_dict['MarketTime'] = imbalancerecords[key]['MarketTime']
+                    moc_dict['Symbol'] = imbalancerecords[key]['Symbol']
+                    moc_dict['Side'] = imbalancerecords[key]['Side']
+                    moc_dict['Volume'] = imbalancerecords[key]['Volume']
+                    moc_dict['AuctionPrice'] = imbalancerecords[key]['AuctionPrice']
+                    moc_dict['ClosingPrice'] = "00.00"
+                    moc_records[recordcount] = moc_dict
+                    recordcount = recordcount + 1
                     #BuyMarketOrder(imbalancerecords[key]['Symbol'], "100")
 
                 if imbalancerecords[key]['Side'] == 'B' and imbalancerecords[key]['Symbol'].endswith(market):
@@ -226,8 +234,16 @@ class TSXClosingImbalance:
                           "\tVolume: " + imbalancerecords[key]['Volume'].ljust(9) +
                           "\tAuctionPrice: " + imbalancerecords[key]['AuctionPrice'] +
                           "\tTradeValue: " + format(float(imbalancerecords[key]['AuctionPrice']) * float(int(imbalancerecords[key]['Volume'])), ',.2f'))
+                    moc_dict['MarketTime'] = imbalancerecords[key]['MarketTime']
+                    moc_dict['Symbol'] = imbalancerecords[key]['Symbol']
+                    moc_dict['Side'] = imbalancerecords[key]['Side']
+                    moc_dict['Volume'] = imbalancerecords[key]['Volume']
+                    moc_dict['AuctionPrice'] = imbalancerecords[key]['AuctionPrice']
+                    moc_dict['ClosingPrice'] = "00.00"
+                    moc_records[recordcount] = moc_dict
+                    recordcount = recordcount + 1
                     #SellMarketOrder(imbalancerecords[key]['Symbol'], "100")
-        return ""
+        print("End: "+moc_records.__len__().__str__())
 
 
 class SubmitMarketOrder:
@@ -285,10 +301,10 @@ class BuyFutures:
             print("API - Execute Order Response : " + html1.__str__())
 
 
-class LoadSymbols():
+class LoadSymbols:
     """Load the Symbol File into the symbols data dictionaries"""
 
-    def __init__(self, file=os.getcwd().__str__() + '\\data\\SP_500.csv'):
+    def __init__(self, file=os.getcwd().__str__() + '\\symbols.csv'):
         print("Start Load File: " + time.asctime())
         print("Current Working Directory: " + file)
         # file = open("C:\\Users\\tctech\\Documents\\Trading Notes\\ClosingImbalance.txt", "r")
@@ -304,7 +320,10 @@ class LoadSymbols():
             recordcount += 1
 
     def getSP500StockList(self):
-        return self.symbols()
+        return self.symbols
+
+    def getsymbols(self):
+        return self.symbols
 
 
 class loadCSVinDictionary():
@@ -384,40 +403,87 @@ class ppro_datagram(DatagramProtocol):
     def connectionRefused(self):
         print("No one listening")
 
+# Unit Test - Register symbol ACB.TO for Time of Sale to the default TOS file
+#   bytype = defaults to file in PPro8
+#   9999 = defaults to a UDP port
+#ACB_TOS = RegisterSymbol("_STW.E1", "TOS", "bytype")
 
-#ACB_TOS = RegisterSymbol("ACB.TO", "TOS", "bytype")
-#ACB_L1  = RegisterSymbol("ACB.TO", "L1", "bytype")
-#GS_L1   = RegisterSymbol("GS.TO", "L1", "bytype")
+# Unit Test - Register symbol ACB.TO for Level 1 quotes and write the L1 data to the default L1 file
+#   bytype = defaults to file in PPro8
+#   9999 = defaults to a UDP port
+# #ACB_L1  = RegisterSymbol("ACB.TO", "L1", "bytype")
+
+# Unit Test - Register symbol GS.TO for Level 2 quotes and write the L2 data to the default L2 file
+#   bytype = defaults to file in PPro8
+#   9999 = defaults to a UDP port
 #GS_L2   = RegisterSymbol("GS.TO", "L2", "bytype")
+
+# Unit Test - Register symbol GS.TO for Level 2 quotes and write the L2 data to the default L2 file
+# bytype = defaults to file in PPro8
+# 9999 = defaults to a UDP port
 #GS_L2_UDP = RegisterSymbol("GS.TO", "L2", "5555")
+
+# Unit Test - Register symbol GS.TO for Level 2 quotes and write the L2 data to the default L2 file
 #GS_TOS  = RegisterSymbol("GS.TO", "TOS")
-#test2 = SnapShot(["TD.TO", "X.TO", "ACB.TO","CRON.TO"], "IMBALANCE")
+
+# Unit Test - Perform snapshot of imbalance
+#test2 = SnapShot()
+
+# Unit Test - Test Reading the TOS feed
 #test3 = TOSFileReader()
+
+# Unit Test - Utility that reads TSX closing imbalance
 #test4 = ClosingImbalanceFile()
+
+# Unit Test - Submit Buy Market Order by symbol and shares
 #testBuy  = BuyMarketOrder("ES\M19.CM", "1")
+
+# Unit Test - Submit Sell Market Order by symbol and shares
 #test6Sell = SellMarketOrder("ACB.TO", 100)
 
+# Unit Test - Imbalance File Reader
 #test8 = ImbalanceFileReader()
+
+# Unit Test -  Load Imbalance file and report all trade imbalance numbers over trade threshold
 #test5 = Imbalance().loadfile(50000000.00)
 
+# Unit Test - Submit Buy futures order by symbol and shares
 #test10 = BuyFutures()
-#test11 = registerSP500()
-#x = LoadSymbols()
-#print("Print : "+x.getSP500StockList())
-#test13 = registerSP500(x.get.symbols)
-#test12.listSymbols()
-#test1 = RegisterSymbols(x.get.symbols, "TOS")
-#BuyMarketOrder("CRON.TO", "100")
-#SellMarketOrder("ACB.TO", "100")
-#test = SubmitMarketOrder("WEED.TO", "Buy", "100")
-#test = BuyMarketOrder("ACB.TO", "100")
-#test = SellMarketOrder("ACB.TO", "100")
-#L1=RegisterSymbol("CRON.TO", "L1", "5555")
-#TOS = RegisterSymbol("CRON.TO", "TOS", "5555")
-#reactor.listenUDP(5555, ppro_datagram())
-#reactor.run()
 
-pause.until(datetime(2019, 6, 24, 15, 25, 0, 0))
-step1 = RegisterImbalance()
-pause.until(datetime(2019, 6, 24, 15, 40, 15, 0))
-step2 = TSXClosingImbalance.loadfile(5000000.00, ".TO")
+#test11 = registerSP500()
+
+# x = LoadSymbols()
+# y = x.getsymbols()
+#test2 = SnapShot("_STW60.E1")
+
+#print("Print : "+x.getSP500StockList())
+
+#test13 = registerSP500(x.get.symbols)
+
+#test12.listSymbols()
+
+#test1 = RegisterSymbols(x.get.symbols, "TOS")
+
+#BuyMarketOrder("CRON.TO", "100")
+
+#SellMarketOrder("ACB.TO", "100")
+
+#test = SubmitMarketOrder("WEED.TO", "Buy", "100")
+
+#test = BuyMarketOrder("ACB.TO", "100")
+
+#test = SellMarketOrder("ACB.TO", "100")
+
+#L1=RegisterSymbol("CRON.TO", "L1", "5555")
+
+#TOS = RegisterSymbol("_STW60.E1", "TOS", "5555")
+
+#reactor.listenUDP(5555, ppro_datagram())
+
+#reactor.run()
+n = datetime.now()
+print(n.year.__str__()+n.month.__str__()+n.day.__str__())
+#pause.until(datetime(n.year, n.month, n.day, 15, 30, 0, 0))
+#step1 = RegisterImbalance()
+pause.until(datetime(n.year, n.month, n.day, 14, 13, 0, 0))
+step2 = TSXClosingImbalance.loadfile(1000000.00, ".TO")
