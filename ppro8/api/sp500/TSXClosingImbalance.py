@@ -2,6 +2,7 @@ import urllib.request
 import urllib.response
 import time
 import os
+import threading
 from twisted.internet import reactor
 from twisted.internet.protocol import DatagramProtocol
 import pause
@@ -18,6 +19,79 @@ class Symbols:
 
     def getsymbols(self):
         return print(self.symbols.__str__())
+
+
+class mocsymbols:
+
+    def __init__(self, mocsym):
+        self.symbols = {}
+        self.loadmocsymbols(mocsym)
+        print(self.symbols.__len__())
+        # self.listsymbols()
+        # self.deregistersymbol()
+        self.registersymbols()
+
+    def setsymbols(self, record, sym):
+        self.symbols[record] = sym
+
+    def getsymbols(self):
+        return self.symbols
+
+    def registersymbols(self):
+        print("Starting THREADS to register TOS for MOC Symbol List")
+        for record, symbol in self.symbols.items():
+            #print(symbol)
+            t = threading.Thread(target=self.registersymbol, args=(symbol, "TOS", "bytype",))
+            t.start()
+
+    def deregistersymbols(self):
+        print("Starting THREADS to deregister TOS for MOC Symbol List")
+        for record, symbol in self.symbols.items():
+            #print(symbol)
+            t = threading.Thread(target=self.deregistersymbol, args=(symbol, "TOS", "1",))
+            t.start()
+
+    def registersymbol(self, symbol, feedType, output):
+        #print('Register Symbol Request  : http://localhost:8080/Register?symbol=' + symbol + '&feedtype=' + feedType)
+        with urllib.request.urlopen('http://localhost:8080/Register?symbol=' + symbol + '&feedtype=' + feedType) \
+                as response1:
+            html1: object = response1.read()
+            #print("Register Symbol Response : " + html1.__str__())
+        #print('http://localhost:8080/SetOutput?symbol=' + symbol + '&feedtype=' + feedType + '&output=' + output + '&status=on')
+        with urllib.request.urlopen('http://localhost:8080/SetOutput?symbol=' + symbol +
+                                    '&feedtype=' + feedType + '&output=' + output + '&status=on') as response2:
+            html2: object = response2.read()
+            #print("Register Output: " + html2.__str__())
+
+    def deregistersymbol(self, symbol, feedType, region, output):
+        print('Deregister Symbol Request  : http://localhost:8080/Deregister?symbol=' + symbol + '&region=' +
+              region + '&feedtype=' + feedType)
+        with urllib.request.urlopen('http://localhost:8080/SetOutput?symbol=' + symbol +
+                                    '&feedtype=' + feedType + '&output=' + output + '&status=off') as response0:
+            html0: object = response0.read()
+            #print("Deregister Symbol Response : " + html0.__str__())
+        with urllib.request.urlopen('http://localhost:8080/Deregister?symbol=' + symbol + '&region=' + region +
+                                    '&feedtype=' + feedType) as response1:
+            html1: object = response1.read()
+            #print("Deregister Symbol Response : " + html1.__str__())
+
+    def loadmocsymbols(self, mocsymbols):
+        for key, symbol in mocsymbols.items():
+            self.symbols[key] = symbol.rstrip()
+
+    def loadsymbols(self, file):
+        print("Start Load File: " + time.asctime())
+        print("Current Working Directory: " + file)
+        file = open(file, "r")
+        recordcount = 1
+        for symbol in file:
+            # print(symbol.rstrip())
+            self.symbols[recordcount] = symbol.rstrip()
+            recordcount += 1
+
+    def listsymbols(self):
+        for rec, symbol in self.symbols.items():
+            print("Symbol[" + str(rec) + "]: " + symbol)
 
 
 class RegisterSymbol:
@@ -84,7 +158,10 @@ class SnapShot:
     def __init__(self, feedType="TOS", **symbols):
         for k, symbol in symbols:
             print('Snapshot Request  : http://localhost:8080/GetSnapshot?symbol='+symbol+'&feedtype='+feedType)
-            with urllib.request.urlopen('http://localhost:8080/GetSnapshot?symbol='+symbol+'&feedtype='+feedType) as response:
+
+
+            with threading.Thread(target=urllib.request.urlopen, args=('http://localhost:8080/GetSnapshot?symbol='+symbol+'&feedtype='+feedType, )) as response:
+            #with urllib.request.urlopen('http://localhost:8080/GetSnapshot?symbol='+symbol+'&feedtype='+feedType) as response:
                 html1: object = response.read()
                 print("Snapshot Response: "+html1.__str__())
 
@@ -116,17 +193,63 @@ class registerSP500:
 
 class ImbalanceFileReader:
     """Create Time of Sale Feed Reader PPro8 API, Reads log file created by the Register Class"""
-    def __init__(self):
-        file = open("C:\\Program Files (x86)\\Ralota\\PPro8 Ekeko\\IMBAL_CIRC_1.log", "r")
-        while 1:
-            where = file.tell()
-            line = file.readline()
-            if not line:
-                time.sleep(1)
-                file.seek(where)
-            else:
-                print(line)
 
+    def __init__(self):
+        l1_tos_stats = {}
+        l1_tos_symbol = {}
+        l1_symbols = {}
+        rec_count = 1
+        file = open("C:\\Program Files (x86)\\Ralota\\PPro8 Guapy\\IMBAL_CIRC_1.log", "r")
+        for record in file:
+            if ".TO" in record:
+                print(record)
+                fields = record.split(",")
+                l1_symbols[rec_count] = fields[6].split("=").pop(1)
+                rec_count = rec_count + 1
+                print(rec_count)
+        for key, l1_symbols in l1_symbols.items():
+            print(l1_symbols)
+
+
+class TOSFileReader:
+    """Create Time of Sale Feed Reader PPro8 API, Reads log file created by the Register Class"""
+
+    def __init__(self):
+        self.tos_records = {}
+        self.last_trade_record = {}
+        self.tos_records_closing = {}
+        rec_count = 1
+        file = open("C:\\Program Files (x86)\\Ralota\\PPro8 Guapy\\TOS_1.log", "r")
+        for record in file:
+            if ".TO" in record:
+                #print(record)
+                self.tos_records[rec_count] = record
+                rec_count = rec_count + 1
+        #self.get_last_trade(symbol)
+
+    def get_last_trade(self, symbol="CNE.TO"):
+        symbol = "Symbol="+symbol
+        message_dict = {}
+        for key, tos_record in self.tos_records.items():
+            if symbol in tos_record:
+                n = datetime.now()
+                #print(n.year.__str__() + n.month.__str__() + n.day.__str__())
+                for item in tos_record.split(','):
+                    couple = item.split('=')
+                    message_dict[couple[0]] = couple[1]
+                    trdtime  = message_dict.get('MarketTime')
+                    mtime = str(trdtime).split(":")
+                if datetime(n.year, n.month, n.day, int(mtime[0]), int(mtime[1]),
+                            int(mtime[2].split('.').pop(0)), 0).time() \
+                        >= datetime(n.year, n.month, n.day, 16, 00, 00, 0).time():
+                    #print("Last Trade Matched: "+tos_record)
+                    self.last_trade_record[key] = tos_record
+                    break
+
+    def match_last_trades_to_moc_records(self, symbol):
+        for k, v in self.last_trade_record.items():
+            if symbol in v:
+                return self.last_trade_record[k]
 
 class ClosingImbalanceFile:
     """Read and process the Imbalance File for Parsing into the Imbalance Data Class"""
@@ -178,12 +301,15 @@ class Imbalance:
 class TSXClosingImbalance:
     """Data Class Used to store the TSX closing imbalance information in the Imbalance Records Dictionary"""
     mrec = {}
+
     def __init__(self):
         print("Initialize Imbalance Object")
+
 
     def loadfile(tradeValue, market):
         moc_records = {}
         moc_dict = {}
+        symbols = {}
         """Load the Imbalance File for Parsing into the imbalancerecord(s) data dictionaries"""
         print("Start Load Imbalance File: "+time.asctime())
         #file = open("C:\\Users\\tctech\\Documents\\Trading Notes\\ClosingImbalance.txt", "r")
@@ -194,13 +320,15 @@ class TSXClosingImbalance:
             imbalancerecord = {}
             #print(record.__str__())
             if str(market) in record:
-                #print(record)
                 for field in record.split(','):
                     fieldName  = field.split('=').__getitem__(0)
                     fieldValue = field.split('=').__getitem__(1)
                     imbalancerecord[fieldName] = fieldValue
                     imbalancerecords[recordcount] = imbalancerecord
-                    #print(imbalancerecord)
+                    # Store all symbols into symbols dictionary
+                    if fieldName == 'Symbol':
+                        symbols[recordcount] = fieldValue
+                        #print(imbalancerecord)
                 recordcount = recordcount + 1
         print("Imbalance Load Completed:  "+time.asctime())
         recordcount = 1
@@ -243,7 +371,15 @@ class TSXClosingImbalance:
                     moc_records[recordcount] = moc_dict
                     recordcount = recordcount + 1
                     #SellMarketOrder(imbalancerecords[key]['Symbol'], "100")
-        print("End: "+moc_records.__len__().__str__())
+        # Load Moc Symbols and Register Time of Sale for each imbalance record
+        m = mocsymbols(symbols)
+        n = datetime.now()
+        while datetime(n.year, n.month, n.day,n.hour, n.minute, n.second).time() \
+                <= datetime(n.year, n.month, n.day, 16, 12, 00).time():
+            SnapShot(m.getsymbols())
+            time.sleep(15)
+            n = datetime.now()
+            print("Collecting TOS Snapshot at " + datetime(n.year, n.month, n.day,n.hour, n.minute, n.second).time().__str__())
 
 
 class SubmitMarketOrder:
@@ -443,6 +579,7 @@ class ppro_datagram(DatagramProtocol):
 
 # Unit Test - Imbalance File Reader
 #test8 = ImbalanceFileReader()
+#test81 = TOSFileReader()
 
 # Unit Test -  Load Imbalance file and report all trade imbalance numbers over trade threshold
 #test5 = Imbalance().loadfile(50000000.00)
@@ -481,9 +618,10 @@ class ppro_datagram(DatagramProtocol):
 #reactor.listenUDP(5555, ppro_datagram())
 
 #reactor.run()
+
 n = datetime.now()
 print(n.year.__str__()+n.month.__str__()+n.day.__str__())
-#pause.until(datetime(n.year, n.month, n.day, 15, 30, 0, 0))
-#step1 = RegisterImbalance()
-pause.until(datetime(n.year, n.month, n.day, 14, 13, 0, 0))
-step2 = TSXClosingImbalance.loadfile(1000000.00, ".TO")
+pause.until(datetime(n.year, n.month, n.day, 13, 35, 0, 0))
+step1 = RegisterImbalance()
+pause.until(datetime(n.year, n.month, n.day, 13, 40, 0, 0))
+step2 = TSXClosingImbalance.loadfile(10000000.00, ".TO")
