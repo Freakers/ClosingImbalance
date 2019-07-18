@@ -79,20 +79,6 @@ class mocsymbols:
         for key, symbol in mocsymbols.items():
             self.symbols[key] = symbol.rstrip()
 
-    def loadsymbols(self, file):
-        print("Start Load File: " + time.asctime())
-        print("Current Working Directory: " + file)
-        file = open(file, "r")
-        recordcount = 1
-        for symbol in file:
-            # print(symbol.rstrip())
-            self.symbols[recordcount] = symbol.rstrip()
-            recordcount += 1
-
-    def listsymbols(self):
-        for rec, symbol in self.symbols.items():
-            print("Symbol[" + str(rec) + "]: " + symbol)
-
 
 class RegisterSymbol:
     """Registers a single symbol in PPro8 API"""
@@ -260,43 +246,6 @@ class ClosingImbalanceFile:
             print(line)
         file.close()
 
-class Imbalance:
-    """Data Class Used to store the closing imbalance information in the Imbalance Class using a Dictionary"""
-
-
-    def __init__(self):
-        print("Initialize Imbalance Object")
-
-
-    @staticmethod
-    def loadfile(tradeValue):
-        """Load the Imbalance File for Parsing into the imbalancerecord(s) data dictionaries"""
-        print("Start Load Imbalance File: "+time.asctime())
-        #file = open("C:\\Users\\tctech\\Documents\\Trading Notes\\ClosingImbalance.txt", "r")
-        file = open("C:\\Program Files (x86)\\Ralota\\PPro8 Ekeko\\IMBAL_CIRC_1.log", "r")
-        recordcount = 1
-        imbalancerecords = {}
-        for record in file:
-            imbalancerecord = {}
-            for field in record.split(','):
-                fieldName  = field.split('=').__getitem__(0)
-                fieldValue = field.split('=').__getitem__(1)
-                imbalancerecord[fieldName] = fieldValue
-            imbalancerecords[recordcount] = imbalancerecord
-            #print(imbalancerecord)
-            recordcount = recordcount + 1
-        print("Imbalance Load Completed:  "+time.asctime())
-        for key, value in imbalancerecords.items():
-            if float(imbalancerecords[key]['AuctionPrice']) * float(int(imbalancerecords[key]['Volume'])) > tradeValue:
-
-                print("Symbol : " + imbalancerecords[key]['Symbol'] +
-                      ", Market : " + imbalancerecords[key]['Source'] +
-                      ", Side : " + imbalancerecords[key]['Side'] +
-                      ", Market Time : " + imbalancerecords[key]['MarketTime'] +
-                      ", Volume : " + imbalancerecords[key]['Volume'] +
-                      ", AuctionPrice : " + imbalancerecords[key]['AuctionPrice'] +
-                      ", TradeValue : " + str(int(float(imbalancerecords[key]['AuctionPrice']) * float(int(imbalancerecords[key]['Volume'])))))
-        return ""
 
 class TSXClosingImbalance:
     """Data Class Used to store the TSX closing imbalance information in the Imbalance Records Dictionary"""
@@ -619,9 +568,23 @@ class ppro_datagram(DatagramProtocol):
 
 #reactor.run()
 
+
+#
+# TSXClosingImbalance
+# Process Flow
+# Step 1. Wait until 13:35:00 PM and then register MOC Imbalance for North American Region Region=1
+#     pause.until(datetime(n.year, n.month, n.day, 13, 35, 0, 0))
+#     step1 = RegisterImbalance()
+# Step 2. Wait until 13:40:00 PM (TSX MOC Imbalance Reporting) and generate list of stocks that equal or exceeed a trade value of 10 million or more
+#     pause.until(datetime(n.year, n.month, n.day, 13, 40, 0, 0))
+#     step2 = TSXClosingImbalance.loadfile(10000000.00, ".TO")
+# NOTE: The steps below (3 & 4) are inside of the class TSXClosingImbalance
+# Step 3. Then register all MOC eligible symbols for TOS (time of sale) data and capture the until 4:12 PM
+# Step 4. Once the market has closed take all moc records and find the corresponding Last Trade Price in the TOS files
+# Create data folder and store MOC report and all data
 n = datetime.now()
 print(n.year.__str__()+n.month.__str__()+n.day.__str__())
-pause.until(datetime(n.year, n.month, n.day, 13, 35, 0, 0))
+pause.until(datetime(n.year, n.month, n.day, 15, 35, 0, 0))
 step1 = RegisterImbalance()
-pause.until(datetime(n.year, n.month, n.day, 13, 40, 0, 0))
+pause.until(datetime(n.year, n.month, n.day, 15, 40, 0, 0))
 step2 = TSXClosingImbalance.loadfile(10000000.00, ".TO")

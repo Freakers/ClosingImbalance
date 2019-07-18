@@ -104,6 +104,7 @@ class OrderEvents:
         msg['LocalTime'] = localtime
         msg['Message'] = msg
         msg['MarketDateTime'] = msgtime
+        msg['OrderNumber'] = ordnum
         msg['EventMessageType'] = eventmsgtype
         msg['EventFlavour'] = eventflavour
         msg['EventOriginatorId'] = eventorginatorid
@@ -117,6 +118,17 @@ class OrderEvents:
     def get_events(self):
         for key, event in self.OrderEvent.items():
             print(key, event)
+
+    def getOrder(self, ordernumber):
+        for key, orderevent in self.OrderEvent.items():
+            if orderevent['EventFlavour'] == '2' and orderevent['OrderNumber'] == ordernumber:
+                return orderevent
+
+    def isorderfilled(self, ordernumber):
+        for key, orderevent in self.OrderEvent.items():
+            # EventFlavour = 2 = Accepted
+            if orderevent['EventFlavour'] == '4' and orderevent['OrderNumber'] == ordernumber:
+                return orderevent
 
 
 class L1:
@@ -186,8 +198,17 @@ class Symbols:
         self.loadsymbols(file)
         print(self.symbols.__len__())
         self.listsymbols()
-        # self.deregistersymbol()
+        #self.deregistersymbol()
         self.registersymbols()
+
+    # def __init__(self, **mocsymbols):
+    #     print("Initiate Symbols")
+    #     self.symbols = {}
+    #     self.loadsymbols(mocsymbols)
+    #     print(self.symbols.__len__())
+    #     self.listsymbols()
+    #     #self.deregistersymbol()
+    #     self.registersymbols()
 
     def setsymbols(self, record, sym):
         self.symbols[record] = sym
@@ -237,6 +258,10 @@ class Symbols:
                                     '&feedtype=' + feedType) as response1:
             html1: object = response1.read()
             print("Deregister Symbol Response : " + html1.__str__())
+
+    def loadsymbols(self, **mocsymbols):
+        for key, symbol in mocsymbols.items():
+            self.symbols[key] = symbol.rstrip()
 
     def loadsymbols(self, file):
         print("Start Load File: " + time.asctime())
@@ -291,7 +316,7 @@ class BuyFutures:
 
 class ppro_datagram(DatagramProtocol):
 
-    def __init__(self, s="XLF.AM"):
+    def __init__(self, s="MES\\U19.CM"):
         self.level1 = L1()
         self.order_status = OrderStatus()
         self.order_event = OrderEvents()
@@ -393,16 +418,126 @@ class ppro_datagram(DatagramProtocol):
                             if float(tosprice) <= calculatemedian(self.bidpr, self.askpr, tosprice).getmaxmedian():
                                 self.asks = self.asks + int(message_dict['Size'])
                     else:
-                        print(tosmarkettime + ": Traded @ " + tosprice + " Size: " + message_dict['Size'])
+                        print(tosmarkettime + ": Traded @ " + tosprice[:7] + " Size: " + message_dict['Size'])
                         if float(tosprice) == float(self.askpr):
                             self.asks = self.asks + int(message_dict['Size'])
                         if float(tosprice) == float(self.bidpr):
                             self.bids = self.bids + int(message_dict['Size'])
-                    print("Bid Price:\t" + self.bidpr + "\tBid Size:\t" + self.bidsize + "\tAsk Price:\t" +
-                          self.askpr + "\tAsk Size:\t" + self.asksize)
-                    print("Trade into Bid:\t" + self.bids.__str__())
-                    print("Trade into Ask:\t" + self.asks.__str__())
-                    print("Trade MidPoint:\t" + self.neutrals.__str__() + '\n')
+                    print("Trade into Bid:\t" + str(self.bids).rjust(8, ' ') + '\t%' +
+                          str(self.bids/(self.bids+self.asks+self.neutrals)*100)[:2].rstrip('.'))
+                    print("Trade into Ask:\t" + str(self.asks).rjust(8, ' ') + '\t%' +
+                          str(self.asks/(self.bids+self.asks+self.neutrals)*100)[:2].rstrip('.'))
+                    print("Trade MidPoint:\t" + str(self.neutrals).rjust(8, ' ') + '\t%' +
+                          str(self.neutrals/(self.bids+self.asks+self.neutrals)*100)[:2].rstrip('.')+'\n')
+            # but any named column will not be callable:
+            # message_dict['MarketTime'] " + message_dict['Symbol'])
+            #             print("     Bid Price: " + message_dict['BidPrice'] + " Bid Size: " + message_dict['BidSize'])
+            #             print("     Ask Price: " + message_dict['AskPrice'] + " Ask Size: " + message_dict['AskSize'])
+            # message_dict['Price']
+
+    def connectionRefused(self):
+        print("No one listening")
+
+    def elapsedtime(self):
+        if time.time() - self.starttime > 60.00:
+            self.starttime = time.time()
+            self.asks = 0
+            self.bids = 0
+            self.neutrals = 0
+
+class ppro_sp500_datagram(DatagramProtocol):
+
+    def __init__(self, s="MES\\U19.CM"):
+        self.level1 = L1()
+        self.order_status = OrderStatus()
+        self.order_event = OrderEvents()
+        self.bidpr = ""
+        self.askpr = ""
+        self.asksize = ""
+        self.bidsize = ""
+        self.asks = 0
+        self.bids = 0
+        self.neutrals = 0
+        self.time = ""
+        self.this_symbol = s
+        self.symbol = ""
+        self.starttime = time.time()
+        print("\nStarting L1TOS monitor for symbol: " + self.this_symbol.__str__())
+
+    def startProtocol(self):
+        # code here what you want to start upon listener creation..
+        # I use this space to connect to my logging backend and inter process communication library
+        print('starting up..')
+
+    def datagramReceived(self, data, addr):
+        self.elapsedtime()
+        # decode byte data from UDP port into string, and replace spaces with NONE
+        msg = data.decode("utf-8").replace(' ', 'NONE')
+
+        # empty dict we will populate with the string data
+        message_dict = {}
+
+        # when processing PPro8 data feeds, processing the line into a dictionary is very useful:
+        for item in msg.split(','):
+            # print(item)
+            if "=" in item:
+                couple = item.split('=')
+                message_dict[couple[0]] = couple[1]
+        # print(message_dict.__str__())
+        # now you can call specific data by name in the line you're processing instead of counting colums
+        # See the print statement below for examples
+
+        # print('{}\t{}\t{}'.format(message_dict['Symbol'], message_dict['Message'], msg))
+        if message_dict['Message'] == "L1":
+            self.symbol = message_dict['Symbol']
+            if self.symbol == self.this_symbol.__str__():
+                self.bidpr = message_dict['BidPrice']
+                self.askpr = message_dict['AskPrice']
+                self.asksize = message_dict['AskSize']
+                self.bidsize = message_dict['BidSize']
+                self.time = message_dict['MarketTime']
+                # print("L1 Time: "+message_dict['MarketTime'] + " Symbol: " + message_dict['Symbol'])
+                # print("L1-> Bid Price:\t" + message_dict['BidPrice'] + "\tBid Size: " + message_dict['BidSize'])
+                # print("L1-> Ask Price:\t" + message_dict['AskPrice'] + "\tAsk Size: " + message_dict['AskSize'])
+                # print(self.time+"\tBid Price:\t" + self.bidpr + "\tBid Size:\t" + self.bidsize + "\tAsk Price:\t" +
+                #       self.askpr + "\tAsk Size:\t" + self.asksize)
+                # # x = 1
+                self.level1.update(message_dict['Symbol'], message_dict['BidPrice'], message_dict['AskPrice'],
+                                   message_dict['BidSize'], message_dict['AskSize'], message_dict['MarketTime'])
+
+        if message_dict['Message'] == "TOS":
+            # print("TOS Time: " + message_dict['MarketTime'] + " Price: " + message_dict['Price'] +
+            #       " Size: " + message_dict['Size'])
+            self.symbol = message_dict['Symbol']
+            if self.symbol == self.this_symbol:
+                tosprice = message_dict['Price']
+                tosmarkettime = message_dict['MarketTime']
+                # print("TOS Price = "+tosprice)
+                print(tosmarkettime + ": L1 Bid @ " + self.bidpr + "\tSize: " + self.bidsize +
+                      "\tAsk @ " + self.askpr + "\tSize: " + self.asksize)
+
+                if float(tosprice) <= float(self.askpr) and float(tosprice) >= float(self.bidpr):
+                    if float(tosprice) != float(self.askpr) and float(tosprice) != float(self.bidpr):
+                        print(tosmarkettime + ": Mid Point Trade: " + tosprice + " Trade Size: " + message_dict['Size'])
+                        if calculatemedian(self.bidpr, self.askpr, tosprice).ismedianvalue():
+                            self.neutrals = self.neutrals + int(message_dict['Size'])
+                        else:
+                            if float(tosprice) <= calculatemedian(self.bidpr, self.askpr, tosprice).getminmedian():
+                                self.bids = self.bids + int(message_dict['Size'])
+                            if float(tosprice) <= calculatemedian(self.bidpr, self.askpr, tosprice).getmaxmedian():
+                                self.asks = self.asks + int(message_dict['Size'])
+                    else:
+                        print(tosmarkettime + ": Traded @ " + tosprice[:7] + " Size: " + message_dict['Size'])
+                        if float(tosprice) == float(self.askpr):
+                            self.asks = self.asks + int(message_dict['Size'])
+                        if float(tosprice) == float(self.bidpr):
+                            self.bids = self.bids + int(message_dict['Size'])
+                    print("Trade into Bid:\t" + str(self.bids).rjust(8, ' ') + '\t%' +
+                          str(self.bids/(self.bids+self.asks+self.neutrals)*100)[:2].rstrip('.'))
+                    print("Trade into Ask:\t" + str(self.asks).rjust(8, ' ') + '\t%' +
+                          str(self.asks/(self.bids+self.asks+self.neutrals)*100)[:2].rstrip('.'))
+                    print("Trade MidPoint:\t" + str(self.neutrals).rjust(8, ' ') + '\t%' +
+                          str(self.neutrals/(self.bids+self.asks+self.neutrals)*100)[:2].rstrip('.')+'\n')
             # but any named column will not be callable:
             # message_dict['MarketTime'] " + message_dict['Symbol'])
             #             print("     Bid Price: " + message_dict['BidPrice'] + " Bid Size: " + message_dict['BidSize'])
@@ -437,6 +572,8 @@ class ppro_order_datagram(DatagramProtocol):
         self.this_symbol = s
         self.symbol = ""
         self.starttime = time.time()
+        self.currentorder = ""
+        self.currentfilledorder = ""
         print("\nStarting L1TOS monitor for symbol: " + self.this_symbol.__str__())
 
     def startProtocol(self):
@@ -480,9 +617,15 @@ class ppro_order_datagram(DatagramProtocol):
             description = str(message_dict['Description'])
             self.order_event.update(ltime, message, mtime, ordernum, originatorseqid, eventtype, eventflavor,
                                     eventoriginid, price, size, description)
-            print("Incomming OE Message: " + msg)
-            # print("Order Event Objects get events")
-            # print(self.order_event.get_events())
+
+            #print(msg)
+            #if self.currentorder
+            self.currentorder = self.order_event.getOrder(ordernum)
+            if bool(self.currentorder):
+                print(self.currentorder)
+            self.currentfilledorder = self.order_event.isorderfilled(ordernum)
+            if bool(self.currentfilledorder):
+                print(self.currentfilledorder)
 
         if message_dict['Message'] == "OrderStatus":
             ltime = str(message_dict['LocalTime'])
@@ -526,7 +669,7 @@ class ppro_order_datagram(DatagramProtocol):
             #       " Size: " + message_dict['Size'])
             self.symbol = message_dict['Symbol']
             if self.symbol == self.this_symbol:
-                print("In TOS Message by symbol")
+                #print("In TOS Message by symbol")
                 tosprice = message_dict['Price']
                 tosmarkettime = message_dict['MarketTime']
                 # print("TOS Price = "+tosprice)
@@ -554,7 +697,13 @@ class ppro_order_datagram(DatagramProtocol):
             self.neutrals = 0
 
 
-Symbols("C:\\Users\\tctech\\Desktop\\Trading Assignments\\Stock List\\SymbolLists\\L1TOS_NCSA.txt")
+# Orders()
+# Symbols("C:\\Users\\tctech\\Desktop\\Trading Assignments\\Stock List\\SymbolLists\\TSMNA.txt")
+# time.sleep(5)
+# reactor.listenUDP(5555, ppro_or
+Symbols("C:\\Users\\tctech\\Desktop\\Trading Assignments\\Stock List\\SymbolLists\\TSMNA.txt")
 time.sleep(5)
 reactor.listenUDP(5555, ppro_datagram("MES\\U19.CM"))
+# reactor.run()
+#Orders()"))
 reactor.run()

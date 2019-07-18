@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/ppro8/api/sp500/TSXClosingImbalance.py" line="401" mnemonic="3" />
+    <bookmark url="file://$PROJECT_DIR$/ppro8/api/sp500/TSXClosingImbalance.py" line="522" mnemonic="3" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6b8138ac-5fc9-41c1-a8a3-7873fbb5e7c9" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/ppro8/api/sp500/symbols.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RegisterSymbol.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/TSXClosingImbalance.py" beforeDir="false" afterPath="$PROJECT_DIR$/ppro8/api/sp500/TSXClosingImbalance.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ppro8/api/sp500/L1TOS.py" beforeDir="false" afterPath="$PROJECT_DIR$/ppro8/api/sp500/L1TOS.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ppro8/api/sp500/TSXClosingImbalance.py" beforeDir="false" afterPath="$PROJECT_DIR$/ppro8/api/sp500/TSXClosingImbalance.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ppro8/api/sp500/__init__.py" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -21,26 +22,14 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/ppro8/api/sp500/TSXClosingImbalance.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="172">
-              <caret line="420" column="21" selection-start-line="420" selection-start-column="21" selection-end-line="420" selection-end-column="21" />
+            <state relative-caret-position="64">
+              <caret line="454" lean-forward="true" selection-start-line="454" selection-end-line="454" />
               <folding>
                 <element signature="e#0#21#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/README.md">
-          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-            <state split_layout="SPLIT">
-              <first_editor relative-caret-position="187">
-                <caret line="194" column="80" selection-start-line="194" selection-start-column="80" selection-end-line="194" selection-end-column="80" />
-              </first_editor>
-              <second_editor />
             </state>
           </provider>
         </entry>
@@ -48,20 +37,11 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ppro8/api/sp500/L1TOS.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-4626">
-              <caret line="267" column="19" lean-forward="true" selection-start-line="267" selection-start-column="19" selection-end-line="267" selection-end-column="19" />
+            <state relative-caret-position="112">
+              <caret line="704" selection-start-line="704" selection-end-line="704" />
               <folding>
                 <element signature="e#0#21#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/ppro8/api/sp500/L1.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="148">
-              <caret line="26" column="19" selection-start-line="26" selection-start-column="19" selection-end-line="26" selection-end-column="19" />
             </state>
           </provider>
         </entry>
@@ -84,6 +64,21 @@
       <find>status</find>
       <find>MFC.TO</find>
       <find>RegisterImbalance</find>
+      <find>TSXClosingImbalance</find>
+      <find>Snapshot</find>
+      <find>RegisterSymbols</find>
+      <find>Register</find>
+      <find>registerSP500</find>
+      <find>Symbols</find>
+      <find>FTS.TO</find>
+      <find>L1FileReader</find>
+      <find>test81 = TOSFileReader()</find>
+      <find>Snap</find>
+      <find>mocsymbols.getsymbols()</find>
+      <find>getsymbols</find>
+      <find>SnapShot</find>
+      <find>TOSFileReader</find>
+      <find>match_last_trades_to_moc_records(</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -101,17 +96,18 @@
         <option value="$PROJECT_DIR$/ppro8/api/sp500/median.py" />
         <option value="$PROJECT_DIR$/ppro8/api/sp500/Symbols.py" />
         <option value="$PROJECT_DIR$/TSXClosingImbalance.py" />
+        <option value="$PROJECT_DIR$/README.md" />
+        <option value="$PROJECT_DIR$/ppro8/api/sp500/symbols.csv" />
         <option value="$PROJECT_DIR$/ppro8/api/sp500/L1TOS.py" />
         <option value="$PROJECT_DIR$/ppro8/api/sp500/TSXClosingImbalance.py" />
-        <option value="$PROJECT_DIR$/README.md" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds">
-    <option name="x" value="215" />
-    <option name="y" value="82" />
-    <option name="width" value="1315" />
-    <option name="height" value="560" />
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="-8" />
+    <option name="y" value="-8" />
+    <option name="width" value="1616" />
+    <option name="height" value="886" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -155,7 +151,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="Python" />
     <property name="last_opened_file_path" value="C:/Program Files (x86)/Ralota/PPro8 Ekeko/IMBAL_CIRC_1.log" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.Python" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -178,7 +174,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.TSXClosingImbalance (1)">
+  <component name="RunManager" selected="Python.L1TOS">
     <configuration name="L1TOS" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="PProUtilities" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -263,27 +259,6 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration default="true" type="PythonConfigurationType" factoryName="Python">
-      <module name="PProUtilities" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <configuration name="median" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="PProUtilities" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -305,53 +280,10 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration default="true" type="Tox" factoryName="Tox">
-      <module name="PProUtilities" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <method v="2" />
-    </configuration>
-    <configuration default="true" type="tests" factoryName="Doctests">
-      <module name="PProUtilities" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="" />
-      <option name="CLASS_NAME" value="" />
-      <option name="METHOD_NAME" value="" />
-      <option name="FOLDER_NAME" value="" />
-      <option name="TEST_TYPE" value="TEST_SCRIPT" />
-      <option name="PATTERN" value="" />
-      <option name="USE_PATTERN" value="false" />
-      <method v="2" />
-    </configuration>
-    <configuration default="true" type="tests" factoryName="Unittests">
-      <module name="PProUtilities" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
-      <method v="2" />
-    </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.TSXClosingImbalance (1)" />
         <item itemvalue="Python.L1TOS" />
+        <item itemvalue="Python.TSXClosingImbalance (1)" />
         <item itemvalue="Python.TSXClosingImbalance" />
         <item itemvalue="Python.Symbols" />
         <item itemvalue="Python.median" />
@@ -425,24 +357,51 @@
       <option name="project" value="LOCAL" />
       <updated>1561484537737</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="New Code for L1 and TOS tape reader">
+      <created>1561490040659</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1561490040659</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Change documentation">
+      <created>1561508592246</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1561508592247</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Change documentation">
+      <created>1562784248114</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1562784248114</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Add new code to capture TOS market data during the MOC imbalance session.">
+      <created>1563390835778</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1563390835778</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="215" y="82" width="1315" height="560" extended-state="0" />
-    <editor active="true" />
+    <frame x="-726" y="254" width="466" height="694" extended-state="0" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.07091633" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.46786633" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32934928" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.7320341" weight="0.12177986" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.7320341" visible="true" weight="0.4064171" />
       <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49960908" weight="0.3997155" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info active="true" anchor="bottom" id="Version Control" order="7" sideWeight="0.89361703" visible="true" weight="0.07025761" />
+      <window_info anchor="bottom" id="Version Control" order="7" sideWeight="0.89361703" weight="0.07025761" />
       <window_info anchor="bottom" id="Terminal" order="8" />
       <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.26796588" side_tool="true" weight="0.3100233" />
       <window_info anchor="bottom" id="Python Console" order="10" weight="0.3298731" />
@@ -453,17 +412,17 @@
       <window_info anchor="right" id="R Packages" order="4" />
     </layout>
     <layout-to-restore>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.20501286" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.46786633" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" visible="true" weight="0.32934928" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.7320341" weight="0.55909693" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32934928" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.7320341" visible="true" weight="0.38379815" />
       <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49960908" weight="0.3997155" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Version Control" order="7" sideWeight="0.89361703" weight="0.32958803" />
+      <window_info anchor="bottom" id="Version Control" order="7" sideWeight="0.89361703" weight="0.07025761" />
       <window_info anchor="bottom" id="Terminal" order="8" />
       <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.26796588" side_tool="true" weight="0.3100233" />
       <window_info anchor="bottom" id="Python Console" order="10" weight="0.3298731" />
@@ -476,7 +435,9 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="New Code for L1 and TOS tape reader" />
-    <option name="LAST_COMMIT_MESSAGE" value="New Code for L1 and TOS tape reader" />
+    <MESSAGE value="Change documentation" />
+    <MESSAGE value="Add new code to capture TOS market data during the MOC imbalance session." />
+    <option name="LAST_COMMIT_MESSAGE" value="Add new code to capture TOS market data during the MOC imbalance session." />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/venv/Lib/site-packages/urllib5.py">
@@ -509,13 +470,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37/Lib/urllib/request.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="157">
-          <caret line="648" selection-start-line="648" selection-end-line="648" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37/Lib/site-packages/twisted/python/log.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="690">
@@ -527,13 +481,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="690">
           <caret line="121" selection-start-line="121" selection-end-line="121" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ppro8/api/sp500/median.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="23" selection-start-line="23" selection-end-line="23" />
         </state>
       </provider>
     </entry>
@@ -558,27 +505,50 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/RegisterSymbol.py" />
+    <entry file="file://$PROJECT_DIR$/ppro8/api/sp500/__init__.py" />
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="85">
+            <caret line="5" column="2" selection-start-line="5" selection-start-column="2" selection-end-line="5" selection-end-column="2" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ppro8/api/sp500/median.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="23" selection-start-line="23" selection-end-line="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37/Lib/urllib/request.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="122">
+          <caret line="1318" selection-start-line="1318" selection-end-line="1318" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ppro8/api/sp500/symbols.csv">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="7" selection-start-column="7" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/ppro8/api/sp500/L1.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="148">
-          <caret line="26" column="19" selection-start-line="26" selection-start-column="19" selection-end-line="26" selection-end-column="19" />
+        <state relative-caret-position="102">
+          <caret line="6" column="30" selection-start-line="6" selection-start-column="30" selection-end-line="6" selection-end-column="30" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/ppro8/api/sp500/L1TOS.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-4626">
-          <caret line="267" column="19" lean-forward="true" selection-start-line="267" selection-start-column="19" selection-end-line="267" selection-end-column="19" />
-          <folding>
-            <element signature="e#0#21#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/RegisterSymbol.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="544">
-          <caret line="32" column="16" selection-start-line="32" selection-start-column="16" selection-end-line="32" selection-end-column="16" />
+        <state relative-caret-position="112">
+          <caret line="704" selection-start-line="704" selection-end-line="704" />
           <folding>
             <element signature="e#0#21#0" expanded="true" />
           </folding>
@@ -587,21 +557,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/ppro8/api/sp500/TSXClosingImbalance.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="172">
-          <caret line="420" column="21" selection-start-line="420" selection-start-column="21" selection-end-line="420" selection-end-column="21" />
+        <state relative-caret-position="64">
+          <caret line="454" lean-forward="true" selection-start-line="454" selection-end-line="454" />
           <folding>
             <element signature="e#0#21#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="187">
-            <caret line="194" column="80" selection-start-line="194" selection-start-column="80" selection-end-line="194" selection-end-column="80" />
-          </first_editor>
-          <second_editor />
         </state>
       </provider>
     </entry>
