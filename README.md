@@ -234,5 +234,33 @@ Please check to see which symbols are available on specific markets by going to 
 
 <H2>How to Run L1TOS consolidated feed reader</H2>
 <p>
+The L1TOS Consolidated feed reader is essential a python tool that allows a trade to conslidate the Last Time Of Sale (TOS Feed) with the L1 Quotes of the 
+symbol being traded. It allows the trader to see how the trades are related to the Best Bid and Ask to allow the trader to view trades relative to the 
+order flow within the book.
+
+The following is a realtime output produced one a minute by minute sampling of trades into the L1 book:
+
+09:28:46.172: L1 Bid @ 2909.00	Size: 156	Ask @ 2909.25	Size: 70
+09:28:46.172: Traded @ 2909.00 Size: 1
+Trade into Bid:	     189	%56
+Trade into Ask:	     146	%43
+Trade MidPoint:	       0	%0
+
+The first two line items are the last L1 quotes captured giving the trader the last spread in the book and the second line
+is the TOS related to the latest L1 quote.
+
+The next three lines are how the trades relate to the buyers and sellers
+
+Trade into Bid:	     189	%56
+Trade into Ask:	     146	%43
+Trade MidPoint:	       0	%0
+
+Trade into bid reflects how trades are currently trading into the bid price (meaning the sellers are trading into the bidders)
+Trade into ask reflects how trades are currently trading into the ask price (meaning the buyers are trading into the sellers)
+Trade into midpoint reflects how trades are currently trading into the mid point price (meaning the buyers or sellers are trading into the midpoint)
+
+This three numbers create a trading indicator showing a upward or downward price movement based on trading sentiment.
+
+This indicator is collected on a minute by minute basis and is the reset every minute to ensure that the trader is using a realtime indicator.
 
 </p>
