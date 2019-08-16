@@ -6,6 +6,7 @@ import threading
 from twisted.internet import reactor
 from twisted.internet.protocol import DatagramProtocol
 import pause
+import shutil
 from datetime import datetime
 
 class Symbols:
@@ -185,16 +186,21 @@ class ImbalanceFileReader:
         l1_tos_symbol = {}
         l1_symbols = {}
         rec_count = 1
-        file = open("C:\\Program Files (x86)\\Ralota\\PPro8 Guapy\\IMBAL_CIRC_1.log", "r")
+        n = datetime.now()
+        file = open("C:\\logs\\" + n.date().__str__() + "\\IMBAL_CIRC_1.log", "r")
         for record in file:
             if ".TO" in record:
-                print(record)
+                #print(record)
                 fields = record.split(",")
-                l1_symbols[rec_count] = fields[6].split("=").pop(1)
+                l1_symbols[rec_count] = fields[6].split("=").pop(1) + ";" + fields[8].split("=").pop(1) +\
+                                        ";" + fields[10].split("=").pop(1) + ";" +\
+                                        str(float(fields[8].split("=").pop(1))*float(fields[10].split("=").pop(1)))
                 rec_count = rec_count + 1
-                print(rec_count)
+                #print(rec_count)
+        tos = TOSFileReader()
+        file = open("C:\\logs\\" + n.date().__str__() + "\\MOCImbalance.log", "w")
         for key, l1_symbols in l1_symbols.items():
-            print(l1_symbols)
+            file.write(l1_symbols.__str__() + ";" + tos.get_last_trade(l1_symbols.split(";").pop(0)).__str__()+"\n")
 
 
 class TOSFileReader:
@@ -205,13 +211,14 @@ class TOSFileReader:
         self.last_trade_record = {}
         self.tos_records_closing = {}
         rec_count = 1
-        file = open("C:\\Program Files (x86)\\Ralota\\PPro8 Guapy\\TOS_1.log", "r")
+        n = datetime.now()
+        file = open("C:\\logs\\" + n.date().__str__() + "\\TOS_1.log", "r")
         for record in file:
             if ".TO" in record:
                 #print(record)
                 self.tos_records[rec_count] = record
                 rec_count = rec_count + 1
-        #self.get_last_trade(symbol)
+                #self.get_last_trade(symbol)
 
     def get_last_trade(self, symbol="CNE.TO"):
         symbol = "Symbol="+symbol
@@ -230,6 +237,8 @@ class TOSFileReader:
                         >= datetime(n.year, n.month, n.day, 16, 00, 00, 0).time():
                     #print("Last Trade Matched: "+tos_record)
                     self.last_trade_record[key] = tos_record
+                    toslastprice = tos_record.split(",").pop(5).split("=").pop(1)
+                    return toslastprice
                     break
 
     def match_last_trades_to_moc_records(self, symbol):
@@ -261,8 +270,7 @@ class TSXClosingImbalance:
         symbols = {}
         """Load the Imbalance File for Parsing into the imbalancerecord(s) data dictionaries"""
         print("Start Load Imbalance File: "+time.asctime())
-        #file = open("C:\\Users\\tctech\\Documents\\Trading Notes\\ClosingImbalance.txt", "r")
-        file = open("C:\\Program Files (x86)\\Ralota\\PPro8 Guapy\\IMBAL_CIRC_1.log", "r")
+        file = open("C:\\Program Files (x86)\\Ralota\\PPro8 Haya\\IMBAL_CIRC_1.log", "r")
         recordcount = 1
         imbalancerecords = {}
         for record in file:
@@ -328,8 +336,11 @@ class TSXClosingImbalance:
             SnapShot(m.getsymbols())
             time.sleep(15)
             n = datetime.now()
-            print("Collecting TOS Snapshot at " + datetime(n.year, n.month, n.day,n.hour, n.minute, n.second).time().__str__())
-
+        print("Collecting TOS Snapshot at " + datetime(n.year, n.month, n.day,n.hour, n.minute, n.second).time().__str__())
+        if not os.path.exists("C:\\logs\\" + n.date().__str__()):
+            os.makedirs("C:\\logs\\" + n.date().__str__())
+        shutil.copy("C:\\Program Files (x86)\\Ralota\\PPro8 Haya\\IMBAL_CIRC_1.log", "C:\\logs\\" + n.date().__str__())
+        shutil.copy("C:\\Program Files (x86)\\Ralota\\PPro8 Haya\\TOS_1.log", "C:\\logs\\" + n.date().__str__())
 
 class SubmitMarketOrder:
     """Submit Order based on the symbol"""
@@ -578,8 +589,8 @@ class ppro_datagram(DatagramProtocol):
 # Step 2. Wait until 13:40:00 PM (TSX MOC Imbalance Reporting) and generate list of stocks that equal or exceeed a trade value of 10 million or more
 #     pause.until(datetime(n.year, n.month, n.day, 13, 40, 0, 0))
 #     step2 = TSXClosingImbalance.loadfile(10000000.00, ".TO")
-# NOTE: The steps below (3 & 4) are inside of the class TSXClosingImbalance
-# Step 3. Then register all MOC eligible symbols for TOS (time of sale) data and capture the until 4:12 PM
+# NOTE: Step 3 is inside of the class TSXClosingImbalance
+#       Step 3. Then register all MOC eligible symbols for TOS (time of sale) data and capture the until 4:12 PM
 # Step 4. Once the market has closed take all moc records and find the corresponding Last Trade Price in the TOS files
 # Create data folder and store MOC report and all data
 n = datetime.now()
@@ -588,3 +599,5 @@ pause.until(datetime(n.year, n.month, n.day, 15, 35, 0, 0))
 step1 = RegisterImbalance()
 pause.until(datetime(n.year, n.month, n.day, 15, 40, 0, 0))
 step2 = TSXClosingImbalance.loadfile(10000000.00, ".TO")
+step3 = ImbalanceFileReader()
+
