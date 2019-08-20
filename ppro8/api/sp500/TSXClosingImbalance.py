@@ -621,11 +621,11 @@ class ppro_datagram(DatagramProtocol):
 #       Step 3. Then register all MOC eligible symbols for TOS (time of sale) data and capture the until 4:12 PM
 # Step 4. Once the market has closed take all moc records and find the corresponding Last Trade Price in the TOS files
 # Create data folder and store MOC report and all data
-# n = datetime.now()
-# print(n.year.__str__()+n.month.__str__()+n.day.__str__())
-# pause.until(datetime(n.year, n.month, n.day, 15, 35, 0, 0))
-# step1 = RegisterImbalance()
-# pause.until(datetime(n.year, n.month, n.day, 15, 40, 0, 0))
-# step2 = TSXClosingImbalance.loadfile(10000000.00, ".TO")
+n = datetime.now()
+print(n.year.__str__()+n.month.__str__()+n.day.__str__())
+pause.until(datetime(n.year, n.month, n.day, 15, 35, 0, 0))
+step1 = RegisterImbalance()
+pause.until(datetime(n.year, n.month, n.day, 15, 40, 0, 0))
+step2 = TSXClosingImbalance.loadfile(10000000.00, ".TO")
 step3 = ImbalanceFileReader()
 
