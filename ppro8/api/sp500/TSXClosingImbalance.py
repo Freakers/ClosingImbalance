@@ -182,6 +182,7 @@ class ImbalanceFileReader:
     """Create Time of Sale Feed Reader PPro8 API, Reads log file created by the Register Class"""
 
     def __init__(self):
+        n = datetime.now()
         l1_tos_stats = {}
         l1_tos_symbol = {}
         l1_symbols = {}
@@ -192,19 +193,45 @@ class ImbalanceFileReader:
             if ".TO" in record:
                 #print(record)
                 fields = record.split(",")
-                l1_symbols[rec_count] = fields[6].split("=").pop(1) + ";" + fields[8].split("=").pop(1) +\
-                                        ";" + fields[10].split("=").pop(1) + ";" +\
+                l1_symbols[rec_count] = fields[6].split("=").pop(1) + ";" + \
+                                        fields[3].split("=").pop(1) + ";" + fields[8].split("=").pop(1) + ";" + \
+                                        fields[10].split("=").pop(1) + ";" + \
                                         str(float(fields[8].split("=").pop(1))*float(fields[10].split("=").pop(1)))
                 rec_count = rec_count + 1
                 #print(rec_count)
         tos = TOSFileReader()
-        file = open("C:\\logs\\" + n.date().__str__() + "\\MOCImbalance.log", "w")
+        file = open("C:\\logs\\" + n.date().__str__() + "\\MOCImbalance.csv", "w")
+        masterfile = open("C:\\logs\\master\\MOCImbalance.csv", "a")
+        file.write("Date;Symbol;Side;Shares;Price;Trade Value;Close Price; Net Share Profit\n")
         for key, l1_symbols in l1_symbols.items():
-            file.write(l1_symbols.__str__() + ";" + tos.get_last_trade(l1_symbols.split(";").pop(0)).__str__()+"\n")
-
+            fields = l1_symbols.split(";")
+            side = fields[1]
+            moc_price = float(fields[3])
+            ltp = tos.get_last_trade(l1_symbols.split(";").pop(0)).__str__()
+            if "None" not in ltp:
+                if side == "B":
+                    last_trade_price = float(tos.get_last_trade(l1_symbols.split(";").pop(0)).__str__())
+                    performance = str(last_trade_price - moc_price)
+                    file.write(n.date().__str__() + ";" + l1_symbols.__str__() + ";" +
+                               tos.get_last_trade(l1_symbols.split(";").pop(0)).__str__() + ";" + performance + "\n")
+                    masterfile.write(n.date().__str__() + ";" + l1_symbols.__str__() + ";" +
+                               tos.get_last_trade(l1_symbols.split(";").pop(0)).__str__() + ";" + performance + "\n")
+                else:
+                    if side == "S":
+                        last_trade_price = float(tos.get_last_trade(l1_symbols.split(";").pop(0)).__str__())
+                        performance = str(moc_price - last_trade_price)
+                        file.write(n.date().__str__() + ";" + l1_symbols.__str__() + ";" +
+                                   tos.get_last_trade(l1_symbols.split(";").pop(0)).__str__() + ";" + performance + "\n")
+                        masterfile.write(n.date().__str__() + ";" + l1_symbols.__str__() + ";" +
+                                         tos.get_last_trade(l1_symbols.split(";").pop(0)).__str__() + ";" + performance + "\n")
+                    else:
+                        file.write(n.date().__str__() + ";" + l1_symbols.__str__() + ";" +
+                                   tos.get_last_trade(l1_symbols.split(";").pop(0)).__str__() + ";" + "00.00" + "\n")
+                        masterfile.write(n.date().__str__() + ";" + l1_symbols.__str__() + ";" +
+                                         tos.get_last_trade(l1_symbols.split(";").pop(0)).__str__() + ";" + performance + "\n")
 
 class TOSFileReader:
-    """Create Time of Sale Feed Reader PPro8 API, Reads log file created by the Register Class"""
+    """Create Time of Sale File Reader, Reads log file created by the Register Class"""
 
     def __init__(self):
         self.tos_records = {}
@@ -341,6 +368,7 @@ class TSXClosingImbalance:
             os.makedirs("C:\\logs\\" + n.date().__str__())
         shutil.copy("C:\\Program Files (x86)\\Ralota\\PPro8 Haya\\IMBAL_CIRC_1.log", "C:\\logs\\" + n.date().__str__())
         shutil.copy("C:\\Program Files (x86)\\Ralota\\PPro8 Haya\\TOS_1.log", "C:\\logs\\" + n.date().__str__())
+
 
 class SubmitMarketOrder:
     """Submit Order based on the symbol"""
@@ -593,11 +621,11 @@ class ppro_datagram(DatagramProtocol):
 #       Step 3. Then register all MOC eligible symbols for TOS (time of sale) data and capture the until 4:12 PM
 # Step 4. Once the market has closed take all moc records and find the corresponding Last Trade Price in the TOS files
 # Create data folder and store MOC report and all data
-n = datetime.now()
-print(n.year.__str__()+n.month.__str__()+n.day.__str__())
-pause.until(datetime(n.year, n.month, n.day, 15, 35, 0, 0))
-step1 = RegisterImbalance()
-pause.until(datetime(n.year, n.month, n.day, 15, 40, 0, 0))
-step2 = TSXClosingImbalance.loadfile(10000000.00, ".TO")
+# n = datetime.now()
+# print(n.year.__str__()+n.month.__str__()+n.day.__str__())
+# pause.until(datetime(n.year, n.month, n.day, 15, 35, 0, 0))
+# step1 = RegisterImbalance()
+# pause.until(datetime(n.year, n.month, n.day, 15, 40, 0, 0))
+# step2 = TSXClosingImbalance.loadfile(10000000.00, ".TO")
 step3 = ImbalanceFileReader()
 
