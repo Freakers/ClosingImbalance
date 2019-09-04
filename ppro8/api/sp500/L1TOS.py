@@ -1,3 +1,4 @@
+import sys
 import urllib.request
 import urllib.response
 import time
@@ -316,7 +317,7 @@ class BuyFutures:
 
 class ppro_datagram(DatagramProtocol):
 
-    def __init__(self, s="MES\\U19.CM"):
+    def __init__(self, s="ES\\U19.CM"):
         self.level1 = L1()
         self.order_status = OrderStatus()
         self.order_event = OrderEvents()
@@ -331,6 +332,10 @@ class ppro_datagram(DatagramProtocol):
         self.this_symbol = s
         self.symbol = ""
         self.starttime = time.time()
+        print("sys.argv.count = "+len(sys.argv).__str__())
+        if len(sys.argv) > 1:
+            print("Symbol: " + sys.argv[1].__str__())
+            self.this_symbol = sys.argv[1].__str__()
         print("\nStarting L1TOS monitor for symbol: " + self.this_symbol.__str__())
 
     def startProtocol(self):
@@ -404,8 +409,8 @@ class ppro_datagram(DatagramProtocol):
                 tosprice = message_dict['Price']
                 tosmarkettime = message_dict['MarketTime']
                 # print("TOS Price = "+tosprice)
-                print(tosmarkettime + ": L1 Bid @ " + self.bidpr + "\tSize: " + self.bidsize +
-                      "\tAsk @ " + self.askpr + "\tSize: " + self.asksize)
+                print(tosmarkettime + ": L1 Bid @ " + self.bidpr + "\tSize: " + self.bidsize)
+                print(tosmarkettime + ": L1 Ask @ " + self.askpr + "\tSize: " + self.asksize)
 
                 if float(tosprice) <= float(self.askpr) and float(tosprice) >= float(self.bidpr):
                     if float(tosprice) != float(self.askpr) and float(tosprice) != float(self.bidpr):
@@ -418,7 +423,7 @@ class ppro_datagram(DatagramProtocol):
                             if float(tosprice) <= calculatemedian(self.bidpr, self.askpr, tosprice).getmaxmedian():
                                 self.asks = self.asks + int(message_dict['Size'])
                     else:
-                        print(tosmarkettime + ": Traded @ " + tosprice[:7] + " Size: " + message_dict['Size'])
+                        print(tosmarkettime + ": Traded @ " + tosprice[:7] + "  Size: " + message_dict['Size'])
                         if float(tosprice) == float(self.askpr):
                             self.asks = self.asks + int(message_dict['Size'])
                         if float(tosprice) == float(self.bidpr):
@@ -574,6 +579,8 @@ class ppro_order_datagram(DatagramProtocol):
         self.starttime = time.time()
         self.currentorder = ""
         self.currentfilledorder = ""
+        self.price = "00.00"
+        self.side = "NoOrder"
         print("\nStarting L1TOS monitor for symbol: " + self.this_symbol.__str__())
 
     def startProtocol(self):
@@ -599,7 +606,9 @@ class ppro_order_datagram(DatagramProtocol):
         # now you can call specific data by name in the line you're processing instead of counting colums
         # See the print statement below for examples
 
-        # print('{}\t{}\t{}'.format(message_dict['Symbol'], message_dict['Message'], msg))
+        if message_dict['Message'] == "OrderEvent" or message_dict['Message'] == "OrderStatus":
+            # print('{}\t{}\t{}'.format(message_dict['Message'], message_dict['Message'], msg))
+            print("")
         # def update(self, localtime, msg, msgtime, ordnum, orginatorseqid, eventmsgtype, eventflavour, eventorginatorid,
         #            price, size, description):
 
@@ -612,11 +621,11 @@ class ppro_order_datagram(DatagramProtocol):
             eventtype = str(message_dict['EventMessageType'])
             eventoriginid = str(message_dict['EventOriginatorId'])
             eventflavor = str(message_dict['EventFlavour'])
-            price = str(message_dict['Price'])
-            size = str(message_dict['Size'])
+            self.price = str(message_dict['Price'])
+            self.size = str(message_dict['Size'])
             description = str(message_dict['Description'])
             self.order_event.update(ltime, message, mtime, ordernum, originatorseqid, eventtype, eventflavor,
-                                    eventoriginid, price, size, description)
+                                    eventoriginid, self.price, self.size, description)
 
             #print(msg)
             #if self.currentorder
@@ -631,8 +640,8 @@ class ppro_order_datagram(DatagramProtocol):
             ltime = str(message_dict['LocalTime'])
             mtime = str(message_dict['MarketDateTime'])
             sym = str(message_dict['Symbol'])
-            side = str(message_dict['Side'])
-            price = str(message_dict['Price'])
+            self.side = str(message_dict['Side'])
+            self.price = str(message_dict['Price'])
             shares = str(message_dict['Shares'])
             position = str(message_dict['Position'])
             orderstate = str(message_dict['OrderState'])
@@ -672,7 +681,20 @@ class ppro_order_datagram(DatagramProtocol):
                 #print("In TOS Message by symbol")
                 tosprice = message_dict['Price']
                 tosmarkettime = message_dict['MarketTime']
-                # print("TOS Price = "+tosprice)
+                #print("TOS Price = "+str(float(tosprice)*5.00))
+                currentTOSPrice = float(tosprice)
+                print("TOS: "+currentTOSPrice.__str__())
+                orderPrice = (float(self.price)/float(10))*float(2)
+                #print("Order Price: " + str(float(self.price)/float(10)))
+                print("Order Price: " + orderPrice.__str__())
+                if (currentTOSPrice >= orderPrice + float(3)) and self.side == "Buy":
+                    SellFutures()
+                if (currentTOSPrice <= orderPrice - float(2)) and self.side == "Buy":
+                    SellFutures()
+                if (currentTOSPrice >= orderPrice - float(3)) and self.side == "Sell":
+                    BuyFutures()
+                if (currentTOSPrice >= orderPrice - float(3)) and self.side == "Sell":
+                    BuyFutures()
                 # print(tosmarkettime+": L1 Bid @ " + self.bidpr + "\tSize: " + self.bidsize +
                 #       "\tAsk @ " + self.askpr + "\tSize: " + self.asksize)
             #         print("Bid Price:\t" + self.bidpr + "\tBid Size:\t" + self.bidsize + "\tAsk Price:\t" +
@@ -697,13 +719,12 @@ class ppro_order_datagram(DatagramProtocol):
             self.neutrals = 0
 
 
-# Orders()
+Orders()
 # Symbols("C:\\Users\\tctech\\Desktop\\Trading Assignments\\Stock List\\SymbolLists\\TSMNA.txt")
 # time.sleep(5)
 # reactor.listenUDP(5555, ppro_or
-Symbols("C:\\Users\\tctech\\Desktop\\Trading Assignments\\Stock List\\SymbolLists\\TSMNA.txt")
+Symbols("C:\\Users\\tctech\\Desktop\\Trading Assignments\\Stock List\\SymbolLists\\L1TOS_NCSA.txt")
 time.sleep(5)
-reactor.listenUDP(5555, ppro_datagram("MES\\U19.CM"))
-# reactor.run()
-#Orders()"))
+reactor.listenUDP(5555, ppro_datagram())
+#reactor.listenUDP(5555, ppro_order_datagram("ES\\U19.CM"))
 reactor.run()
