@@ -468,7 +468,6 @@ class ppro_datagram(DatagramProtocol):
                         print('Avg. Trades/Sec :\t' + str(int((self.avgbidtotal + self.avgbidtotal + self.avgasktotal) /
                                                               self.getcurrentelapsedtime())).rjust(8, ' ') + ' trades')
                         print('Avg. Trades/Min :\t' + str(int((self.avgbidtotal+self.avgbidtotal+self.avgasktotal) / int(self.getcurrentelapsedtime()/60))).rjust(8, ' ') + ' trades\n')
-
             # but any named column will not be callable:
             # message_dict['MarketTime'] " + message_dict['Symbol'])
             #             print("     Bid Price: " + message_dict['BidPrice'] + " Bid Size: " + message_dict['BidSize'])
