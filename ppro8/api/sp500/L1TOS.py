@@ -3,6 +3,7 @@ import urllib.request
 import urllib.response
 import time
 import threading
+import datetime
 from typing import Counter
 
 from twisted.internet import reactor
@@ -463,11 +464,18 @@ class ppro_datagram(DatagramProtocol):
                             str(self.avgask/(self.avgbid+self.avgask+self.avgneutrals)*100)[:2].rstrip('.'))
                         print("Avg/Min into Mid:\t" + str(int(self.avgneutrals)).rjust(8, ' ') + '\t%' +
                             str(self.avgneutrals/(self.avgbid+self.avgask+self.avgneutrals)*100)[:2].rstrip('.'))
-                    print("Duration        :\t" + self.getcurrentelapsedtime().__str__().rjust(8, ' ') + " Seconds")
-                    if self.getcurrentelapsedtime() > 60:
-                        print('Avg. Trades/Sec :\t' + str(int((self.avgbidtotal + self.avgbidtotal + self.avgasktotal) /
-                                                              self.getcurrentelapsedtime())).rjust(8, ' ') + ' trades')
-                        print('Avg. Trades/Min :\t' + str(int((self.avgbidtotal+self.avgbidtotal+self.avgasktotal) / int(self.getcurrentelapsedtime()/60))).rjust(8, ' ') + ' trades\n')
+                    print("Duration        :\t" + datetime.timedelta(0, self.getcurrentelapsedtime()).__str__().rjust(8,' '))
+                    if self.counter > 0:
+                        avgsec = (self.avgbidtotal + self.avgbidtotal + self.avgasktotal) / \
+                                 self.getcurrentelapsedtime().__float__()
+                        print('Avg. Trades/Sec :\t% 5.2f' % avgsec)
+                        # print('Avg. Trades/Sec :\t% 5.2f %' + str((self.avgbidtotal + self.avgbidtotal + self.avgasktotal) /
+                        #                                       self.getcurrentelapsedtime()).rjust(8, ' '))
+                        avgmin = (self.avgbidtotal + self.avgbidtotal + self.avgasktotal) / \
+                                  self.getcurrentelapsedtime().__float__() * 60.00
+                        print('Avg. Trades/Min :\t% 5.2f' % avgmin)
+                        # print('Avg. Trades/Min :\t% 5.2f &' + str(((self.avgbidtotal + self.avgbidtotal + self.avgasktotal) /
+                        #                                   self.getcurrentelapsedtime().__float__()) * 60.00).rjust(8, ' ') + '\n')
             # but any named column will not be callable:
             # message_dict['MarketTime'] " + message_dict['Symbol'])
             #             print("     Bid Price: " + message_dict['BidPrice'] + " Bid Size: " + message_dict['BidSize'])
@@ -481,36 +489,36 @@ class ppro_datagram(DatagramProtocol):
         if time.time() - self.starttime > 60.00:
             self.starttime = time.time()
             if self.counter == 0:
-                self.avgbidtotal += self.bids
                 self.avgbid = self.bids
                 #print("Avg Trade into Bid : " + str(self.avgbid))
                 #print("avgbidtotal(0) = " + str(self.avgbidtotal))
                 self.bids = 0
             else:
+                print("Update Bid")
                 self.avgbidtotal += self.bids
                 #print("avgbidtotal = " + str(self.avgbidtotal))
                 self.avgbid = float(self.avgbidtotal/self.counter)
                 #print("Avg Trade into Bid : " + str(self.avgbid))
                 self.bids = 0
             if self.counter == 0:
-                self.avgasktotal += self.asks
                 self.avgask = self.asks
                 #print("Avg Trade into Ask : " + str(self.avgask))
                 #print("avgasktotal(0) = " + str(self.avgasktotal))
                 self.asks = 0;
             else:
+                print("Update Ask")
                 self.avgasktotal += self.asks
                 #print("avgbasktotal = " + str(self.avgasktotal))
                 self.avgask = float(self.avgasktotal / self.counter)
                 #print("Avg Trade into Ask : " + str(self.avgask))
                 self.asks = 0
             if self.counter == 0:
-                self.avgneutralstotal += self.neutrals
                 self.avgneutrals = self.neutrals
                 #print("Avg Trade into Mid : " + str(self.avgneutrals))
                 #print("avgneutralstotal(0) = " + str(self.avgneutralstotal))
                 self.neutrals = 0
             else:
+                print("Update Neutral")
                 self.avgneutralstotal += self.neutrals
                 #print("avgneutralstotal = " + str(self.avgneutralstotal))
                 self.avgneutrals = float(self.avgneutralstotal / self.counter)
@@ -527,9 +535,9 @@ class ppro_datagram(DatagramProtocol):
 
 
 # Load and register symbols of intrest
-Symbols("C:\\logs\L1TOS_NCSA_Symbols.txt")
+#Symbols("C:\\logs\L1TOS_NCSA_Symbols.txt")
 #SP500 11 Sectors
-#Symbols("C:\\logs\SP500_Sectors.txt")
+Symbols("C:\\logs\SP500_Sectors.txt")
 # Nikkei 225
 #Symbols("C:\\logs\\Nikkei225.csv")
 # Wait 5 seconds
@@ -537,5 +545,5 @@ time.sleep(5)
 # Usage: reactor.listenUDP(_PORT_, ppro_datagram(_SYMBOL_))
 # Start listening on UDP _PORT_ 555 for message related to _SYMBOL_
 # Note: If the _SYMBOL_ is omitted it will default to ES\U19.CM
-reactor.listenUDP(5555, ppro_datagram())
+reactor.listenUDP(5555, ppro_datagram("ES\\Z19.CM"))
 reactor.run()
