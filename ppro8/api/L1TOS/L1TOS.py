@@ -218,12 +218,13 @@ class Orders:
 
 class Symbols:
 
-    def __init__(self, file="C:\\Users\\tctech\\Desktop\\Trading Assignments\\Stock List\\SymbolLists\\L1TOS_ASIA.txt"):
-        print("Initiate Symbols from " + file.__str__())
+    def __init__(self, symbol):
+        print("Initiate Symbol" + symbol.__str__())
         self.symbols = {}
-        self.loadsymbols(file)
-        print(self.symbols.__len__())
-        self.listsymbols()
+        self.symbols[1] = symbol
+        #self.loadsymbols(file)
+        #print(self.symbols.__len__())
+        #self.listsymbols()
         #self.deregistersymbol()
         self.registersymbols()
 
@@ -241,6 +242,9 @@ class Symbols:
 
     def getsymbols(self):
         return self.symbols
+
+    def getsymbol(self):
+        return self.symbols.get(1).__str__()
 
     def registersymbols(self):
         print("Starting THREADS to register L1 AND TOS for Symbol List")
@@ -343,7 +347,7 @@ class BuyFutures:
 
 
 class ppro_datagram(DatagramProtocol):
-    def __init__(self, s="ES\\Z19.CM"):
+    def __init__(self, s="MES\\Z19.CM"):
         self.elapsedcounterstart = time.time()
         self.elapsedcountercurrent = time.time()
         self.counter = 0
@@ -368,11 +372,6 @@ class ppro_datagram(DatagramProtocol):
         self.this_symbol = s
         self.symbol = ""
         self.starttime = time.time()
-        print("sys.argv.count = "+len(sys.argv).__str__())
-        if len(sys.argv) > 1:
-            print("Symbol: " + sys.argv[1].__str__())
-            self.this_symbol = sys.argv[1].__str__()
-        print("\nStarting L1TOS monitor for symbol: " + self.this_symbol.__str__())
 
     def setcurrentelapedtime(self):
         self.elapsedcountercurrent = time.time()
@@ -530,8 +529,15 @@ class ppro_datagram(DatagramProtocol):
             self.neutrals = 0
 
 
+my_symbol = ""
+print("sys.argv.count = "+len(sys.argv).__str__())
+if len(sys.argv) > 1:
+    print("Symbol: " + sys.argv[1].__str__())
+    my_symbol = sys.argv[1].__str__()
+    print("\nStarting L1TOS monitor for symbol: " + my_symbol.__str__())
+Symbols(my_symbol)
 # Load and register symbols of intrest
-Symbols("C:\\logs\Symbols.txt")
+# Symbols("C:\\logs\Symbols.txt")
 #SP500 11 Sectors
 #Symbols("C:\\logs\SP500_Sectors.txt")
 # Nikkei 225
@@ -541,5 +547,5 @@ time.sleep(5)
 # Usage: reactor.listenUDP(_PORT_, ppro_datagram(_SYMBOL_))
 # Start listening on UDP _PORT_ 555 for message related to _SYMBOL_
 # Note: If the _SYMBOL_ is omitted it will default to ES\U19.CM
-reactor.listenUDP(5555, ppro_datagram())
+reactor.listenUDP(5555, ppro_datagram(str(sys.argv[1])))
 reactor.run()
