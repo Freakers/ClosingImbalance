@@ -532,7 +532,6 @@ class ppro_datagram(DatagramProtocol):
 my_symbol = ""
 print("sys.argv.count = "+len(sys.argv).__str__())
 if len(sys.argv) > 1:
-    print("Symbol: " + sys.argv[1].__str__())
     my_symbol = sys.argv[1].__str__()
     print("\nStarting L1TOS monitor for symbol: " + my_symbol.__str__())
 Symbols(my_symbol)
