@@ -528,7 +528,9 @@ class ppro_datagram(DatagramProtocol):
             self.avgneutrals = self.avgneutralstotal/self.getcurrentelapsedtime() * 60.00
             self.neutrals = 0
 
-
+#
+# Change Log
+#
 my_symbol = ""
 print("sys.argv.count = "+len(sys.argv).__str__())
 if len(sys.argv) > 1:
